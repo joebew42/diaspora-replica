@@ -1,0 +1,9 @@
+[submodule "puppet/modules/nginx"]
+	path = puppet/modules/nginx
+	url = git@github.com:puppetlabs/puppetlabs-nginx.git
+[submodule "puppet/modules/stdlib"]
+	path = puppet/modules/stdlib
+	url = git@github.com:puppetlabs/puppetlabs-stdlib.git
+[submodule "puppet/modules/rvm"]
+	path = puppet/modules/rvm
+	url = git://github.com/blt04/puppet-rvm.git

@@ -1,0 +1,1 @@
+class {'diaspora_dependencies':}
