@@ -1,7 +1,7 @@
 configuration: ## Section
 
   environment: ## Section
-    url: "http://diaspora.localhost.com/"
+    url: "<%= @hostname %>"
 
     ## Setting the bundle of certificate authorities (CA) certificates.
     certificate_authorities: '/etc/ssl/certs/ca-certificates.crt'
@@ -98,7 +98,7 @@ configuration: ## Section
   ## Settings affecting how ./script/server behaves.
   server: ## Section
     port: 3000
-    rails_environment: 'development'
+    rails_environment: '<%= @environment %>'
 
     ## Write unicorn stderr and stdout log
     #stderr_log: '/usr/local/app/diaspora/log/unicorn-stderr.log'

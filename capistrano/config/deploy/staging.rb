@@ -1,8 +1,8 @@
 set :stage, :staging
 
-role :web, %w{diaspora.localhost.com}
-role :app, %w{diaspora.localhost.com}
-role :db,  %w{diaspora.localhost.com}
+role :web, %w{staging.diaspora.io}
+role :app, %w{staging.diaspora.io}
+role :db,  %w{staging.diaspora.io}
 
 ssh_options = {
   keys: %w(ssh_keys/diaspora),
@@ -13,6 +13,6 @@ ssh_options = {
 set :rvm_type, :system
 set :rvm_ruby_version, '1.9.3-p448@diaspora'
 
-set :rails_env, 'development'
+set :rails_env, 'production'
 
-server 'diaspora.localhost.com', user: 'diaspora', roles: %w{web app db}, ssh_options: ssh_options
+server 'staging.diaspora.io', user: 'diaspora', roles: %w{web app db}, ssh_options: ssh_options
