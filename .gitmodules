@@ -4,3 +4,6 @@
 [submodule "puppet/modules/rvm"]
 	path = puppet/modules/rvm
 	url = git://github.com/blt04/puppet-rvm.git
+[submodule "jfryman"]
+	path = puppet/modules/nginx
+	url = git@github.com:jfryman/puppet-nginx.git
