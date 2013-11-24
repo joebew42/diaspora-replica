@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "piasporadirty"
   config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box"
-  config.vm.host_name = "diaspora.localhost.com"
+  config.vm.host_name = "development.diaspora.io"
   config.vm.network :private_network, ip: "192.168.11.2"
 
   config.vm.provision :shell, :inline => "apt-get update -y --fix-missing"

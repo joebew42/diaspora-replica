@@ -19,7 +19,8 @@ class diaspora::user (
   file { [$home,
           "$home/.ssh",
           "$home/shared",
-          "$home/shared/config"]:
+          "$home/shared/config",
+          "$home/certs"]:
     ensure => 'directory',
     owner  => $user,
     group  => $group
