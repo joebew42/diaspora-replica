@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "piasporadirty"
+  config.vm.box = "ubuntu_server_1204_x64"
   config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box"
   config.vm.host_name = "development.diaspora.io"
   config.vm.network :private_network, ip: "192.168.11.2"
