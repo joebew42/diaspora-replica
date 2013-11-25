@@ -41,6 +41,18 @@ class diaspora (
       owner   => $user,
       group   => $group,
       require => Class['diaspora::user'];
+
+    "$app_directory/certs/$hostname.crt":
+      source  => "puppet:///modules/diaspora/certs/$hostname.crt",
+      owner   => $user,
+      group   => $group,
+      before  => Class['nginx'];
+
+    "$app_directory/certs/$hostname.key":
+      source  => "puppet:///modules/diaspora/certs/$hostname.key",
+      owner   => $user,
+      group   => $group,
+      before  => Class['nginx'];
   }
 
   class { 'nginx': }
@@ -51,7 +63,10 @@ class diaspora (
   }
 
   nginx::resource::vhost { $hostname:
-    ensure   => present,
-    proxy    => 'http://diaspora_app'
+    ensure      => present,
+    proxy       => 'http://diaspora_app',
+    ssl         => true,
+    ssl_cert    => "$app_directory/certs/$hostname.crt",
+    ssl_key     => "$app_directory/certs/$hostname.key",
   }
 }
