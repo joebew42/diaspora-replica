@@ -62,11 +62,18 @@ class diaspora (
     members => ['localhost:3000']
   }
 
-  nginx::resource::vhost { $hostname:
-    ensure      => present,
-    proxy       => 'http://diaspora_app',
-    ssl         => true,
-    ssl_cert    => "$app_directory/certs/$hostname.crt",
-    ssl_key     => "$app_directory/certs/$hostname.key",
+  if $environment == 'development' {
+    nginx::resource::vhost { $hostname:
+      ensure      => present,
+      proxy       => 'http://diaspora_app',
+    }
+  } else {
+    nginx::resource::vhost { $hostname:
+      ensure      => present,
+      proxy       => 'http://diaspora_app',
+      ssl         => true,
+      ssl_cert    => "$app_directory/certs/$hostname.crt",
+      ssl_key     => "$app_directory/certs/$hostname.key",
+    }
   }
 }
