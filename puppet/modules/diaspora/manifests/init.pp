@@ -41,18 +41,22 @@ class diaspora (
       owner   => $user,
       group   => $group,
       require => Class['diaspora::user'];
+  }
 
-    "$app_directory/certs/$hostname.crt":
-      source  => "puppet:///modules/diaspora/certs/$hostname.crt",
-      owner   => $user,
-      group   => $group,
-      before  => Class['nginx'];
+  if $environment != 'development' {
+    file {
+      "$app_directory/certs/$hostname.crt":
+        source  => "puppet:///modules/diaspora/certs/$hostname.crt",
+        owner   => $user,
+        group   => $group,
+        before  => Class['nginx'];
 
-    "$app_directory/certs/$hostname.key":
-      source  => "puppet:///modules/diaspora/certs/$hostname.key",
-      owner   => $user,
-      group   => $group,
-      before  => Class['nginx'];
+      "$app_directory/certs/$hostname.key":
+        source  => "puppet:///modules/diaspora/certs/$hostname.key",
+        owner   => $user,
+        group   => $group,
+        before  => Class['nginx'];
+    }
   }
 
   class { 'nginx': }
