@@ -29,6 +29,12 @@ class diaspora (
     db_password => $db_password
   }
 
+  class { 'diaspora::webserver':
+    environment   => $environment,
+    hostname      => $hostname,
+    app_directory => $app_directory
+  }
+
   file {
     "$app_directory/shared/config/database.yml":
       content => template('diaspora/database.yml.erb'),
@@ -41,43 +47,5 @@ class diaspora (
       owner   => $user,
       group   => $group,
       require => Class['diaspora::user'];
-  }
-
-  if $environment != 'development' {
-    file {
-      "$app_directory/certs/$hostname.crt":
-        source  => "puppet:///modules/diaspora/certs/$hostname.crt",
-        owner   => $user,
-        group   => $group,
-        before  => Class['nginx'];
-
-      "$app_directory/certs/$hostname.key":
-        source  => "puppet:///modules/diaspora/certs/$hostname.key",
-        owner   => $user,
-        group   => $group,
-        before  => Class['nginx'];
-    }
-  }
-
-  class { 'nginx': }
-
-  nginx::resource::upstream { 'diaspora_app':
-    ensure  => present,
-    members => ['localhost:3000']
-  }
-
-  if $environment == 'development' {
-    nginx::resource::vhost { $hostname:
-      ensure      => present,
-      proxy       => 'http://diaspora_app',
-    }
-  } else {
-    nginx::resource::vhost { $hostname:
-      ensure      => present,
-      proxy       => 'http://diaspora_app',
-      ssl         => true,
-      ssl_cert    => "$app_directory/certs/$hostname.crt",
-      ssl_key     => "$app_directory/certs/$hostname.key",
-    }
   }
 }
