@@ -18,6 +18,16 @@ set :unicorn_pid, "#{fetch :deploy_to}/current/tmp/pids/unicorn.pid"
 
 namespace :deploy do
 
+  desc "Assets precompile"
+  task :assets_precompile do
+    on roles(:app), in: :parallel do
+      within(current_path) do
+        execute :echo, "Precompiling assets ..."
+        execute :bundle, "exec rake assets:precompile"
+      end
+    end
+  end
+
   desc "Start"
   task :start do
     on roles(:app), in: :parallel do
@@ -62,6 +72,7 @@ namespace :deploy do
     end
   end
 
+  before :assets_precompile, 'rvm:hook'
   before :start, 'rvm:hook'
   after :finishing, 'deploy:cleanup'
 
