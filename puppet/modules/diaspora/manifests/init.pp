@@ -1,5 +1,5 @@
 class diaspora (
-  $hostname,
+  $hostname      = 'development.diaspora.io',
   $environment   = 'development',
   $app_directory = '/home/diaspora',
   $user          = 'diaspora',
@@ -36,13 +36,13 @@ class diaspora (
   }
 
   file {
-    "$app_directory/shared/config/database.yml":
+    "${app_directory}/shared/config/database.yml":
       content => template('diaspora/database.yml.erb'),
       owner   => $user,
       group   => $group,
       require => Class['diaspora::user'];
 
-    "$app_directory/shared/config/diaspora.yml":
+    "${app_directory}/shared/config/diaspora.yml":
       content => template('diaspora/diaspora.yml.erb'),
       owner   => $user,
       group   => $group,
