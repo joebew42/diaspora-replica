@@ -10,10 +10,10 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, :inline => "apt-get update -y --fix-missing"
 
   config.vm.provision :puppet do |puppet|
-     puppet.manifests_path = "puppet/manifests"
-     puppet.module_path = "puppet/modules"
-     puppet.manifest_file  = "site.pp"
-     puppet.options = "--verbose"
+    puppet.manifests_path = "puppet/manifests"
+    puppet.module_path = "puppet/modules"
+    puppet.manifest_file  = "site.pp"
+    puppet.options = "--verbose"
   end
 
   config.vm.provider "virtualbox" do |virtualbox|
