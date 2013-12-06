@@ -27,7 +27,7 @@ class diaspora::user (
   }
 
   file { "$home/.ssh/authorized_keys":
-    content => template('diaspora/diaspora.pub.erb'),
+    source  => "puppet:///modules/diaspora/diaspora.pub",
     mode    => '600',
     owner   => $user,
     group   => $group,
