@@ -50,7 +50,9 @@ Now, your diaspora* installation is up and running, you can go visit it at ``htt
 
 ##How to simulate a production environment
 
-If you want to simulate a production installation of diaspora*, you can do that simply modifying the ``puppet/manifests/site.pp``:
+If you want to simulate a production installation of diaspora*, you can do that simply modifying the ``Vagrantfile`` and the ``puppet/manifests/site.pp``. In your ``Vagrantfile``, you have to specify the *hostname* of the machine to **production.diaspora.io**
+
+###puppet/manifests/site.pp
 
 ```puppet
 node 'production.diaspora.io' {
