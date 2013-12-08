@@ -1,4 +1,5 @@
 set :stage, :staging
+set :branch, 'master'
 
 role :web, %w{staging.diaspora.io}
 role :app, %w{staging.diaspora.io}

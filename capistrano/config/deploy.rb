@@ -1,6 +1,5 @@
 set :application, 'diaspora'
 set :repo_url, 'https://github.com/diaspora/diaspora.git'
-set :branch, 'master'
 
 set :deploy_to, '/home/diaspora'
 set :scm, :git
