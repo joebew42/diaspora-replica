@@ -53,7 +53,7 @@ Now, your diaspora* installation is up and running, you can go visit it at ``htt
 If you want to simulate a production installation of diaspora*, you can do that simply modifying the ``puppet/manifests/site.pp``:
 
 ```puppet
-node 'production.domain.com' {
+node 'production.diaspora.io' {
   class { 'diaspora':
     hostname      => $fqdn,
     environment   => 'production',
@@ -69,7 +69,7 @@ node 'production.domain.com' {
   }
 }
 ```
-And edit you ``/etc/hosts`` putting this entry:
+And edit your ``/etc/hosts`` putting this entry:
 
 ```
 192.168.11.2    production.diaspora.io
