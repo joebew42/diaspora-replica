@@ -49,19 +49,66 @@ cap development deploy:start
 Now, your Diaspora* installation is up and running, you can go visit it at ``http://development.diaspora.io``
 
 ##How to start a production environment
-If you want to use these tools to deploy a production environment (e.g. stage or production), you have to configure some properties inside ``Vagrantfile``, ``puppet/manifests/site.pp`` and, of course inside ``capistrano/config/deploy/production.rb``.
+If you want to use these tools to deploy a production environment (e.g. stage or production), you have to configure some properties inside ``Vagrantfile``, ``puppet/manifests/site.pp``, ``capistrano/config/deploy/production.rb`` and of course, SSL certs and private/public keys for the server.
 
-TODO
+###Vagrantfile
+
+You have to configure your ``Vagrantfile`` based on the virtual machine provider you are going to use (e.g. Amazon AWS, DigitalOcean, and other). Please see the [Vagrant Provider Documentation] for detailed instructions. If you are not going to use vagrant you can skip this section and apply puppet manually, or configure a puppet master/agent environment. See the Puppet documentation for more informations.
+
+###puppets/manifests/site.pp
+
+```puppet
+node 'myproduction.domain.com' {
+  class { 'diaspora':
+    hostname      => $fqdn,
+    environment   => 'production',
+    app_directory => '/home/diaspora',
+    user          => 'diaspora',
+    group         => 'diaspora',
+    db_provider   => 'mysql',
+    db_host       => 'localhost',
+    db_port       => '3306',
+    db_name       => 'diaspora_production',
+    db_username   => 'diaspora',
+    db_password   => 'diaspora'
+  }
+}
+```
+Of course, you have to change *myproduction.domain.com* with your real Fully Qualified Domain Name, and set up strong password.
+
+### Setup the SSL certificate for your server
+
+You have to put the SSL key and certificate in ``puppet/modules/diaspora/files/certs/``. The file names must contain the FQDN followed by .crt and .key. See the examples that already exists.
+
+### Setup the public key of the user
+Put in ``puppet/modules/diaspora/files/diaspora.pub`` the public key of the user that will be granted to execute commands from Capistrano.
+
+### Apply Puppet configuration
+Now that your Puppet configuration is complete, you have to execute it to your production server. If you use vagrant configured with one of the supported providers it can be done automatically. If you are not able to configure vagrant, you can apply puppet in other ways. But this topic will not covered here. See the Puppet documentation for this.
+
+### capistrano/config/deploy/production.rb
+Here you have to configure the FQDN, the name of the branch used and the user of the remote server. If you want to specify a different git repository instead of using the official one, you have to edit the ``capistrano/config/deploy.rb``.
+
+### Capistrano public key
+In order to allow Capistrano to execute commands on the remote server we need to put in ``capistrano/ssh_keys`` the private and the public keys of the user. The public key should be the same of ``puppet/modules/diaspora/files/diaspora.pub``.
+
+###Deploy Diaspora*
+Once you have successfully configured the server, you can deploy and start Diaspora*
 
 ```
-cap staging deploy:assets_precompile
+cap production deploy:stop
+cap production deploy
+cap production deploy:assets_precompile
+cap production deploy:start
 ```
 
 ##How to contribute this project
 
-TODO
+This project is under development. There are a lot of things to do. At the moment the Puppet support and has been tested only on Ubuntu 12.04LTS server. It could be useful if someone can test it over other version of Ubuntu, or better, can provide support for other distributions (e.g. CentOS).
+The Database support only work with MySQL/MariaDB and properties like hostname and port are not used at the moment. I would like to improve Puppet to include support over other DBMS, like PostgreSQL.
 
   [Diaspora*]: https://github.com/diaspora/diaspora
   [Vagrant 2]: http://www.vagrantup.com/
+  [Vagrant Provider Documentation]: http://docs.vagrantup.com/v2/providers/index.html
   [Puppet]: http://puppetlabs.com/
   [Capistrano 3]: http://www.capistranorb.com/
