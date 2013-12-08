@@ -48,7 +48,46 @@ cap development deploy:start
 ```
 Now, your diaspora* installation is up and running, you can go visit it at ``http://development.diaspora.io``
 
-##How to start a production environment
+##How to simulate a production environment
+
+If you want to simulate a production installation of diaspora*, you can do that simply modifying the ``puppet/manifests/site.pp``:
+
+```puppet
+node 'production.domain.com' {
+  class { 'diaspora':
+    hostname      => $fqdn,
+    environment   => 'production',
+    app_directory => '/home/diaspora',
+    user          => 'diaspora',
+    group         => 'diaspora',
+    db_provider   => 'mysql',
+    db_host       => 'localhost',
+    db_port       => '3306',
+    db_name       => 'diaspora_production',
+    db_username   => 'diaspora',
+    db_password   => 'diaspora'
+  }
+}
+```
+And edit you ``/etc/hosts`` putting this entry:
+
+```
+192.168.11.2    production.diaspora.io
+```
+After that, execute vagrant:
+
+```vagrant up```
+
+and proceed to deploy diaspora* with capistrano:
+
+```
+cd capistrano
+cap production deploy
+cap production deploy:assets_precompile
+cap production deploy:start
+```
+
+##How to start a real production environment
 If you want to use these tools to deploy a production environment (e.g. stage or production), you have to configure some properties inside ``Vagrantfile``, ``puppet/manifests/site.pp``, ``capistrano/config/deploy/production.rb`` and of course, SSL certs and private/public keys for the server.
 
 ###Vagrantfile
@@ -96,6 +135,7 @@ In order to allow Capistrano to execute commands on the remote server you need t
 Once you have successfully configured the server, you can deploy and start diaspora*
 
 ```
+cd capistrano
 cap production deploy:stop
 cap production deploy
 cap production deploy:assets_precompile
