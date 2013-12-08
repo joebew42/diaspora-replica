@@ -1,6 +1,6 @@
-#Diaspora* -Replica
+#diaspora* -Replica
 
-The aim of this project is to provide some tools that can help you to deploy a full [Diaspora*] environment through the automation of two tasks:
+The aim of this project is to provide some tools that can help you to deploy a full [diaspora*] environment through the automation of two tasks:
 
 * The deploy and configuration of the machine with [Vagrant 2] and [Puppet]
 * The deploy of Diaspora* itself with [Capistrano 3]
@@ -9,8 +9,8 @@ With these two tasks you can automatically set up different environments, from d
 
 ##How to start a development environment
 
-If you are a developer and you want to try Diaspora without messing up your computer by installing and configuring extra packages, you can set up a virtual machine that is executed by Vagrant and then automatically configured by Puppet.
-Now that you have a fully configured virtual machine ready to host a Diaspora application, will be very easy to deploy it with Capistrano.
+If you are a developer and you want to try diaspora without messing up your computer by installing and configuring extra packages, you can set up a virtual machine that is executed by Vagrant and then automatically configured by Puppet.
+Now that you have a fully configured virtual machine ready to host a diaspora application, will be very easy to deploy it with Capistrano.
 
 ###Configure a fake FQDN in your system
 
@@ -22,7 +22,7 @@ Put this entry in your ``/etc/hosts``
 ###Initialize project
 
 ```
-git clone git@github.com:joebew42/dispora-replica.git
+git clone git@github.com:joebew42/diaspora-replica.git
 cd diaspora_replica
 git submodule init
 git submodule update
@@ -35,18 +35,18 @@ vagrant up
 ```
 Wait until the virtual machine is automatically setted up with puppet and is up and running.
 
-###Deploy Diaspora*
-When the virtual machine is up and running, then you can deploy Diaspora* on it using Capistrano
+###Deploy diaspora*
+When the virtual machine is up and running, then you can deploy diaspora* on it using Capistrano
 
 ```
 cap development deploy
 ```
-When the deployment process is finished you can start Diaspora*
+When the deployment process is finished you can start diaspora*
 
 ```
 cap development deploy:start
 ```
-Now, your Diaspora* installation is up and running, you can go visit it at ``http://development.diaspora.io``
+Now, your diaspora* installation is up and running, you can go visit it at ``http://development.diaspora.io``
 
 ##How to start a production environment
 If you want to use these tools to deploy a production environment (e.g. stage or production), you have to configure some properties inside ``Vagrantfile``, ``puppet/manifests/site.pp``, ``capistrano/config/deploy/production.rb`` and of course, SSL certs and private/public keys for the server.
@@ -92,8 +92,8 @@ Here you have to configure the FQDN, the name of the branch used and the user of
 ### Capistrano public key
 In order to allow Capistrano to execute commands on the remote server you need to put in ``capistrano/ssh_keys`` the private and the public keys of the user. The public key should be the same of ``puppet/modules/diaspora/files/diaspora.pub``.
 
-###Deploy Diaspora*
-Once you have successfully configured the server, you can deploy and start Diaspora*
+###Deploy diaspora*
+Once you have successfully configured the server, you can deploy and start diaspora*
 
 ```
 cap production deploy:stop
@@ -107,7 +107,7 @@ cap production deploy:start
 This project is under development. There are a lot of things to do. At the moment the Puppet provides support and, has been tested only on Ubuntu 12.04LTS server. It could be useful if someone can test it over other version of Ubuntu, or better, can provide support for other distributions (e.g. CentOS).
 The Database section of the Puppet works only with MySQL/MariaDB and properties like hostname and port are not used at the moment. I would like to improve Puppet to include support over other DBMS, like PostgreSQL. Furthermore there a lot of variables of diaspora.yml that are not covered (e.g. mail server configuration, unicorn workers, and more).
 
-  [Diaspora*]: https://github.com/diaspora/diaspora
+  [diaspora*]: https://github.com/diaspora/diaspora
   [Vagrant 2]: http://www.vagrantup.com/
   [Vagrant Provider Documentation]: http://docs.vagrantup.com/v2/providers/index.html
   [Puppet]: http://puppetlabs.com/
