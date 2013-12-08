@@ -5,7 +5,7 @@ The aim of this project is to provide some tools that can help you to deploy a f
 * The deploy and configuration of the machine with [Vagrant 2] and [Puppet]
 * The deploy of Diaspora* itself with [Capistrano 3]
 
-With these two tasks we can automatically set up different environments, from development to production installation.
+With these two tasks you can automatically set up different environments, from development to production installation.
 
 ##How to start a development environment
 
@@ -84,13 +84,13 @@ You have to put the SSL key and certificate in ``puppet/modules/diaspora/files/c
 Put in ``puppet/modules/diaspora/files/diaspora.pub`` the public key of the user that will be granted to execute commands from Capistrano.
 
 ### Apply Puppet configuration
-Now that your Puppet configuration is complete, you have to execute it to your production server. If you use vagrant configured with one of the supported providers it can be done automatically. If you are not able to configure vagrant, you can apply puppet in other ways. But this topic will not covered here. See the Puppet documentation for this.
+Now that your Puppet configuration is complete, you have to execute it to your production server. If you use vagrant configured with one of the supported providers it can be done automatically. If you are not able to configure vagrant, you can apply puppet in other ways. But this topic will be not covered here. See the Puppet documentation for this.
 
 ### capistrano/config/deploy/production.rb
 Here you have to configure the FQDN, the name of the branch used and the user of the remote server. If you want to specify a different git repository instead of using the official one, you have to edit the ``capistrano/config/deploy.rb``.
 
 ### Capistrano public key
-In order to allow Capistrano to execute commands on the remote server we need to put in ``capistrano/ssh_keys`` the private and the public keys of the user. The public key should be the same of ``puppet/modules/diaspora/files/diaspora.pub``.
+In order to allow Capistrano to execute commands on the remote server you need to put in ``capistrano/ssh_keys`` the private and the public keys of the user. The public key should be the same of ``puppet/modules/diaspora/files/diaspora.pub``.
 
 ###Deploy Diaspora*
 Once you have successfully configured the server, you can deploy and start Diaspora*
@@ -104,8 +104,8 @@ cap production deploy:start
 
 ##How to contribute this project
 
-This project is under development. There are a lot of things to do. At the moment the Puppet support and has been tested only on Ubuntu 12.04LTS server. It could be useful if someone can test it over other version of Ubuntu, or better, can provide support for other distributions (e.g. CentOS).
-The Database support only work with MySQL/MariaDB and properties like hostname and port are not used at the moment. I would like to improve Puppet to include support over other DBMS, like PostgreSQL.
+This project is under development. There are a lot of things to do. At the moment the Puppet provides support and, has been tested only on Ubuntu 12.04LTS server. It could be useful if someone can test it over other version of Ubuntu, or better, can provide support for other distributions (e.g. CentOS).
+The Database section of the Puppet works only with MySQL/MariaDB and properties like hostname and port are not used at the moment. I would like to improve Puppet to include support over other DBMS, like PostgreSQL. Furthermore there a lot of variables of diaspora.yml that are not covered (e.g. mail server configuration, unicorn workers, and more).
 
   [Diaspora*]: https://github.com/diaspora/diaspora
   [Vagrant 2]: http://www.vagrantup.com/
