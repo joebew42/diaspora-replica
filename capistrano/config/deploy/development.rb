@@ -1,4 +1,6 @@
 set :stage, :development
+
+set :repo_url, 'https://github.com/diaspora/diaspora.git'
 set :branch, 'develop'
 
 role :web, %w{development.diaspora.io}
