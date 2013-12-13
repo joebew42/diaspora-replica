@@ -17,10 +17,10 @@ set :unicorn_pid, "#{fetch :deploy_to}/current/tmp/pids/unicorn.pid"
 namespace :deploy do
 
   desc "Assets precompile"
-  task :assets_precompile do
+  task :compile_assets do
     on roles(:app), in: :parallel do
       within(current_path) do
-        execute :echo, "Precompiling assets ..."
+        info 'compiling assets ...'
         execute :bundle, "exec rake assets:precompile"
       end
     end
@@ -30,8 +30,12 @@ namespace :deploy do
   task :start do
     on roles(:app), in: :parallel do
       within(current_path) do
-        execute :echo, "Starting unicorn ..."
-        execute :bundle, "exec unicorn_rails -p 3000 -c #{fetch :unicorn_config} -E #{fetch :rails_env} -D"
+        if test("[ -e #{fetch :unicorn_pid} ]")
+          info 'unicorn is already running ...'
+        else
+          info 'starting unicorn ...'
+          execute :bundle, "exec unicorn_rails -p 3000 -c #{fetch :unicorn_config} -E #{fetch :rails_env} -D"
+        end
       end
     end
   end
@@ -39,19 +43,20 @@ namespace :deploy do
   desc "Stop"
   task :stop do
     on roles(:app), in: :parallel do
-      if test("[ -f #{fetch :unicorn_pid} ]")
-        execute :echo, "Stopping unicorn ..."
+      if test("[ -e #{fetch :unicorn_pid} ]")
+        info 'stopping unicorn ...'
         execute :kill, "`cat #{fetch :unicorn_pid}`"
+        execute :rm, fetch(:unicorn_pid)
+      else
+        info 'unicorn is not running.'
       end
     end
   end
 
   desc 'Restart application'
   task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      invoke :stop
-      invoke :start
-    end
+    invoke 'deploy:stop'
+    invoke 'deploy:start'
   end
 
   after :restart, :clear_cache do
@@ -70,7 +75,7 @@ namespace :deploy do
     end
   end
 
-  before :assets_precompile, 'rvm:hook'
+  before :compile_assets, 'rvm:hook'
   before :start, 'rvm:hook'
   after :finishing, 'deploy:cleanup'
 

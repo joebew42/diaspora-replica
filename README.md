@@ -41,12 +41,18 @@ When the virtual machine is up and running, then you can deploy diaspora* on it 
 ```
 cap development deploy
 ```
-When the deployment process is finished you can start diaspora*
+
+Now, your diaspora* installation is up and running, you can go visit it at ``http://development.diaspora.io``
+
+###Start, stop and restart
+
+You can use Capistrano tasks to start, stop or restart diaspora*
 
 ```
 cap development deploy:start
+cap development deploy:stop
+cap development deploy:restart
 ```
-Now, your diaspora* installation is up and running, you can go visit it at ``http://development.diaspora.io``
 
 ##How to simulate a production environment
 
@@ -86,8 +92,8 @@ and proceed to deploy diaspora* with capistrano:
 ```
 cd capistrano
 cap production deploy
-cap production deploy:assets_precompile
-cap production deploy:start
+cap production deploy:compile_assets
+cap production deploy:restart
 ```
 
 ##How to start a real production environment
@@ -140,10 +146,9 @@ Once you have successfully configured the server, you can deploy and start diasp
 
 ```
 cd capistrano
-cap production deploy:stop
 cap production deploy
-cap production deploy:assets_precompile
-cap production deploy:start
+cap production deploy:compile_assets
+cap production deploy:restart
 ```
 
 ##How to contribute this project
