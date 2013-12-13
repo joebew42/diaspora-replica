@@ -39,6 +39,7 @@ Wait until the virtual machine is automatically setted up with puppet and is up 
 When the virtual machine is up and running, then you can deploy diaspora* on it using Capistrano
 
 ```
+cd capistrano
 cap development deploy
 ```
 
