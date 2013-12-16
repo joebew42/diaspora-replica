@@ -22,10 +22,9 @@ Put this entry in your ``/etc/hosts``
 ###Initialize project
 
 ```
-git clone git@github.com:joebew42/diaspora-replica.git
+git clone https://github.com/joebew42/diaspora-replica.git
 cd diaspora_replica
-git submodule init
-git submodule update
+git submodule update --init
 ```
 
 ###Set up the virtual machine with Vagrant/Puppet
