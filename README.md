@@ -16,7 +16,7 @@ Now that you have a fully configured virtual machine ready to host a diaspora ap
 
 Put this entry in your ``/etc/hosts``
 ```
-192.168.11.2    development.diaspora.io
+192.168.11.2    development.diaspora.local
 ```
 
 ###Initialize project
@@ -42,7 +42,7 @@ cd capistrano
 cap development deploy
 ```
 
-Now, your diaspora* installation is up and running, you can go visit it at ``http://development.diaspora.io``
+Now, your diaspora* installation is up and running, you can go visit it at ``http://development.diaspora.local``
 
 ###Start, stop and restart
 
@@ -56,12 +56,12 @@ cap development deploy:restart
 
 ##How to simulate a production environment
 
-If you want to simulate a production installation of diaspora*, you can do that simply modifying the ``Vagrantfile`` and the ``puppet/manifests/site.pp``. In your ``Vagrantfile``, you have to specify the *hostname* of the machine to **production.diaspora.io**
+If you want to simulate a production installation of diaspora*, you can do that simply modifying the ``Vagrantfile`` and the ``puppet/manifests/site.pp``. In your ``Vagrantfile``, you have to specify the *hostname* of the machine to **production.diaspora.local**
 
 ###puppet/manifests/site.pp
 
 ```puppet
-node 'production.diaspora.io' {
+node 'production.diaspora.local' {
   class { 'diaspora':
     hostname           => $fqdn,
     environment        => 'production',
@@ -81,7 +81,7 @@ node 'production.diaspora.io' {
 And edit your ``/etc/hosts`` putting this entry:
 
 ```
-192.168.11.2    production.diaspora.io
+192.168.11.2    production.diaspora.local
 ```
 After that, execute vagrant:
 

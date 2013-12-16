@@ -1,4 +1,4 @@
-node 'development.diaspora.io' {
+node 'development.diaspora.local' {
   class { 'diaspora':
     hostname         => $fqdn,
     environment      => 'development',
