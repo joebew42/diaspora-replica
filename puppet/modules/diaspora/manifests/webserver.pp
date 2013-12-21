@@ -1,6 +1,6 @@
 class diaspora::webserver (
   $environment   = 'development',
-  $hostname      = 'development.diaspora.io',
+  $hostname      = 'development.diaspora.local',
   $app_directory = '/home/diaspora'
 ) {
 

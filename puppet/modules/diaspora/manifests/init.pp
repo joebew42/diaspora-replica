@@ -1,5 +1,5 @@
 class diaspora (
-  $hostname         = 'development.diaspora.io',
+  $hostname         = 'development.diaspora.local',
   $environment      = 'development',
   $app_directory    = '/home/diaspora',
   $user             = 'diaspora',
