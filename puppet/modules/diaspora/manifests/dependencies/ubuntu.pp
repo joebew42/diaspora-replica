@@ -1,4 +1,6 @@
-class diaspora::dependencies::ubuntu {
+class diaspora::dependencies::ubuntu (
+  $db_provider = 'mysql'
+) {
 
   if ! defined(Package['build-essential'])      { package { 'build-essential':      ensure => present } }
   if ! defined(Package['git'])                  { package { 'git':                  ensure => present } }
@@ -8,7 +10,17 @@ class diaspora::dependencies::ubuntu {
   if ! defined(Package['libcurl4-openssl-dev']) { package { 'libcurl4-openssl-dev': ensure => present } }
   if ! defined(Package['libxml2-dev'])          { package { 'libxml2-dev':          ensure => present } }
   if ! defined(Package['libxslt-dev'])          { package { 'libxslt-dev':          ensure => present } }
-  if ! defined(Package['libmysqlclient-dev'])   { package { 'libmysqlclient-dev':   ensure => present } }
   if ! defined(Package['libmagickwand-dev'])    { package { 'libmagickwand-dev':    ensure => present } }
 
+  if $db_provider == 'mysql' and !defined(Package['libmysqlclient-dev']) {
+    package { 'libmysqlclient-dev':
+      ensure => present
+    }
+  }
+
+  if $db_provider == 'postgres' and !defined(Package['libpq-dev']) {
+    package { 'libpq-dev':
+      ensure => present
+    }
+  }
 }

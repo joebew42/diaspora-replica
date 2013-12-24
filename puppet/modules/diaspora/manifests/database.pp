@@ -8,29 +8,12 @@ class diaspora::database (
   $db_root_password = 'diaspora_root',
 ) {
 
-  package { 'mysql-server':
-   ensure => 'installed'
-  }
-
-  exec { 'mysql_root_password':
-   subscribe   => Package['mysql-server'],
-   refreshonly => true,
-   unless      => "mysqladmin -uroot -p${db_root_password} status",
-   path        => "/bin:/usr/bin",
-   command     => "mysqladmin -uroot password ${db_root_password}",
-  }
-
-  exec { 'db_create':
-   require => Exec['mysql_root_password'],
-   unless  => "mysql -uroot -p${db_root_password} -e \"USE '${db_name}'\";",
-   path    => "/bin:/usr/bin",
-   command => "mysql -uroot -p${db_root_password} -e \"CREATE DATABASE ${db_name}\";",
-  }
-
-  exec { 'db_user':
-    require => Exec['db_create'],
-    unless  => "mysql -u${db_name} -p${db_password}",
-    path    => "/bin:/usr/bin",
-    command => "mysql -uroot -p${db_root_password} -e \"GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_username}'@'${db_host}' IDENTIFIED BY '${db_password}'\";"
+  class { "diaspora::database::db_$db_provider":
+    db_host          => $db_host,
+    db_port          => $db_port,
+    db_name          => $db_name,
+    db_username      => $db_username,
+    db_password      => $db_password,
+    db_root_password => $db_root_password
   }
 }
