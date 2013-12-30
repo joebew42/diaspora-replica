@@ -1,6 +1,16 @@
-class diaspora::dependencies {
+class diaspora::dependencies (
+  $db_provider = 'mysql'
+) {
   case $::operatingsystem {
-    Ubuntu,Debian: { require diaspora::dependencies::ubuntu }
-    #CentOS,RedHat,Amazon: { require diaspora::dependencies::centos }
+    Ubuntu,Debian: {
+      class { 'diaspora::dependencies::ubuntu':
+        db_provider => $db_provider
+      }
+    }
+    #CentOS,RedHat,Amazon: {
+    #  class { 'diaspora::dependencies::centos':
+    #    db_provider => $db_provider
+    #  }
+    #}
   }
 }

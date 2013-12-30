@@ -40,6 +40,7 @@ When the virtual machine is up and running, then you can deploy diaspora* on it 
 ```
 cd capistrano
 cap development deploy
+cap development deploy:start
 ```
 
 Now, your diaspora* installation is up and running, you can go visit it at ``http://development.diaspora.local``
@@ -92,8 +93,7 @@ and proceed to deploy diaspora* with capistrano:
 ```
 cd capistrano
 cap production deploy
-cap production deploy:compile_assets
-cap production deploy:restart
+cap production deploy:start
 ```
 
 ##How to start a real production environment
@@ -136,7 +136,7 @@ Put in ``puppet/modules/diaspora/files/diaspora.pub`` the public key of the user
 Now that your Puppet configuration is complete, you have to execute it to your production server. If you use vagrant configured with one of the supported providers it can be done automatically. If you are not able to configure vagrant, you can apply puppet in other ways. But this topic will be not covered here. See the Puppet documentation for this.
 
 ### capistrano/config/deploy/production.rb
-Here you have to configure the FQDN, the name of the branch used and the user of the remote server. If you want to specify a different git repository instead of using the official one, you have to edit the ``capistrano/config/deploy.rb``.
+Here you have to configure the FQDN, the git repository URL, the name of the branch and the user of the remote server.
 
 ### Capistrano public key
 In order to allow Capistrano to execute commands on the remote server you need to put in ``capistrano/ssh_keys`` the private and the public keys of the user. The public key should be the same of ``puppet/modules/diaspora/files/diaspora.pub``.
@@ -147,14 +147,62 @@ Once you have successfully configured the server, you can deploy and start diasp
 ```
 cd capistrano
 cap production deploy
-cap production deploy:compile_assets
-cap production deploy:restart
+cap production deploy:start
 ```
+
+##How to use PostgreSQL Database
+
+If you want to use PostgreSQL [1] instead of the default MySQL, you can configure it through ``puppet/manifests/site.pp``:
+
+```puppet
+node 'development.diaspora.local' {
+  class { 'diaspora':
+    hostname         => $fqdn,
+    environment      => 'development',
+    app_directory    => '/home/diaspora',
+    user             => 'diaspora',
+    group            => 'diaspora',
+    db_provider      => 'postgres',
+    db_host          => 'localhost',
+    db_port          => '5432',
+    db_name          => 'diaspora_development',
+    db_username      => 'diaspora',
+    db_password      => 'diaspora',
+    db_root_password => 'diaspora_root'
+  }
+}
+```
+note the `db_provider` and `db_port` parameters.
+
+And you have to uncomment the line:
+
+```ruby
+# set :default_env, { DB: 'postgres' }
+```
+That is present in your ``capistrano/config/deploy/development.rb``
+
+[1] Puppet will install PostgreSQL 9.1
+
+### PostgreSQL for Staging/Production environments
+
+Because of "--deployment" flag that is set up by default in capistrano bundler, it is necessary to fork diaspora* in a personal git repository and bundle it with PostgreSQL support:
+
+```bash
+$ DB=postgres bundle
+```
+
+and then add the generated Gemfile.lock under version control. Once you have done that, to enable PostgreSQL you have to uncomment this line,:
+
+```ruby
+# set :default_env, { DB: 'postgres' }
+```
+
+in ``capistrano/config/deploy/production.rb`` (or ``capistrano/config/deploy/staging.rb``, depends on which environment you are going to deploy.) Of course, you have to specify your git repository, too.
 
 ##How to contribute this project
 
 This project is under development. There are a lot of things to do. At the moment the Puppet provides support and, has been tested only on Ubuntu 12.04LTS server. It could be useful if someone can test it over other version of Ubuntu, or better, can provide support for other distributions (e.g. CentOS).
-The Database section of the Puppet works only with MySQL/MariaDB and properties like hostname and port are not used at the moment. I would like to improve Puppet to include support over other DBMS, like PostgreSQL. Furthermore there a lot of variables of diaspora.yml that are not covered (e.g. mail server configuration, unicorn workers, and more).
+The Database section of the Puppet does not consider parameters like hostname and port at the moment. Furthermore there a lot of variables of diaspora.yml that are not covered (e.g. mail server configuration, unicorn workers, and more).
 
   [diaspora*]: https://github.com/diaspora/diaspora
   [Vagrant 2]: http://www.vagrantup.com/

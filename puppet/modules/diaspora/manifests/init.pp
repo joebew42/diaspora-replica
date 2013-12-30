@@ -13,14 +13,17 @@ class diaspora (
   $db_root_password = 'diaspora_root',
 ) {
 
-  class { 'diaspora::dependencies': }
-  class { 'diaspora::ruby': }
+  class { 'diaspora::dependencies':
+    db_provider => $db_provider
+  }->
   class { 'diaspora::user':
     home  => $app_directory,
     user  => $user,
     group => $group
-  }
-
+  }->
+  class { 'diaspora::ruby':
+    system_user => $user
+  }->
   class { 'diaspora::database':
     db_provider      => $db_provider,
     db_host          => $db_host,
@@ -29,25 +32,21 @@ class diaspora (
     db_username      => $db_username,
     db_password      => $db_password,
     db_root_password => $db_root_password
-  }
-
+  }->
   class { 'diaspora::webserver':
     environment   => $environment,
     hostname      => $hostname,
     app_directory => $app_directory
-  }
-
+  }->
   file {
     "${app_directory}/shared/config/database.yml":
       content => template('diaspora/database.yml.erb'),
       owner   => $user,
-      group   => $group,
-      require => Class['diaspora::user'];
+      group   => $group;
 
     "${app_directory}/shared/config/diaspora.yml":
       content => template('diaspora/diaspora.yml.erb'),
       owner   => $user,
-      group   => $group,
-      require => Class['diaspora::user'];
+      group   => $group;
   }
 }

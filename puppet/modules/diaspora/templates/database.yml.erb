@@ -4,24 +4,19 @@ mysql: &mysql
   port: <%= @db_port %>
   username: <%= @db_username %>
   password: <%= @db_password %>
-#  socket: /tmp/mysql.sock
   charset: utf8
   collation: utf8_bin
 
 postgres: &postgres
   adapter: postgresql
-  host: localhost
-  port: 5432
-  username: postgres
-  password:
+  host: <%= @db_host %>
+  port: <%= @db_port %>
+  username: <%= @db_username %>
+  password: <%= @db_password %>
   encoding: unicode
 
-# Comment the the mysql line and uncomment the postgres line
-# if you want to use postgres
 common: &common
-  # Choose one of the following
-  <<: *mysql
-  #<<: *postgres
+  <<: *<%= @db_provider %>
 
   # Should match environment.sidekiq.concurrency
   #pool: 25
