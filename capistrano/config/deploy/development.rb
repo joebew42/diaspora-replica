@@ -25,4 +25,6 @@ set :rails_env, 'development'
 
 set :assets_roles, [] # No assets compile for development
 
+set :keep_releases, 1
+
 server 'development.diaspora.local', user: 'diaspora', roles: %w{web app db}, ssh_options: ssh_options
