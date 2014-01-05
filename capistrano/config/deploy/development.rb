@@ -23,7 +23,7 @@ set :rvm_ruby_version, '1.9.3-p448@diaspora'
 
 set :rails_env, 'development'
 
-set :assets_roles, [] # No assets compile for development
+set :assets_roles, [:none] # No assets compile for development
 
 set :keep_releases, 1
 

@@ -34,13 +34,20 @@ vagrant up
 ```
 Wait until the virtual machine is automatically setted up with puppet and is up and running.
 
+### Install Capistrano with bundle (if you haven't)
+
+If you have not installed Capistrano on your computer, you can easily run bundle to install it.
+
+```
+cd capistrano/ && bundle
+```
+
 ### Deploy diaspora* with Capistrano
 When the virtual machine is up and running, then you can deploy diaspora* on it using Capistrano
 
 ```
 cd capistrano
-cap development deploy
-cap development deploy:start
+cap development deploy deploy:restart
 ```
 
 Now, your diaspora* installation is up and running, you can go visit it at ``http://development.diaspora.local``
@@ -79,7 +86,7 @@ node 'production.diaspora.local' {
   }
 }
 ```
-And edit your ``/etc/hosts`` putting this entry:
+And edits your ``/etc/hosts`` putting this entry:
 
 ```
 192.168.11.2    production.diaspora.local
@@ -92,8 +99,7 @@ and proceed to deploy diaspora* with capistrano:
 
 ```
 cd capistrano
-cap production deploy
-cap production deploy:start
+cap production deploy deploy:restart
 ```
 
 ## Deploy a real diaspora* POD
@@ -152,8 +158,7 @@ Once you have successfully configured the server, you can deploy and start diasp
 
 ```
 cd capistrano
-cap production deploy
-cap production deploy:start
+cap production deploy deploy:restart
 ```
 
 ## Using PostgreSQL Database
