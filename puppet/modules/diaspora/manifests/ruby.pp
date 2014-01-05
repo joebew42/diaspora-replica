@@ -2,7 +2,7 @@ class diaspora::ruby (
   $system_user = 'diaspora'
 ) {
 
-  $rvm_version  = '1.23.3'
+  $rvm_version  = '1.25.14'
   $ruby_version = '1.9.3-p448'
   $gemset       = 'diaspora'
 
