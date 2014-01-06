@@ -210,9 +210,17 @@ and then add the generated Gemfile.lock under version control. Once you have don
 
 in ``capistrano/config/deploy/production.rb`` (or ``capistrano/config/deploy/staging.rb``, depends on which stage you are going to deploy.) Of course, you have to specify your git repository, too.
 
+## Which Operating Systems are supported?
+
+At the moment we support **Ubuntu 12.04LTS Server** and **CentOS 6.4**
+
+### Choosing the OS from Vagrantfile
+
+By default the Vagrantfile will creates an Ubuntu box. If you want to switch for CentOS, you have to comment out the lines regarding Ubuntu and uncomment the lines about CentOS
+
 ## How to contribute this project
 
-This project is under development. There are a lot of things to do. At the moment the Puppet provides support and, has been tested only on Ubuntu 12.04LTS server. It could be useful if someone can test it over other version of Ubuntu, or better, can provide support for other distributions (e.g. CentOS).
+This project is under development. At the moment the Puppet provides support and, has been tested only on Ubuntu 12.04LTS server and CentOS 6.4. It could be useful if someone can test it over other version of Ubuntu or CentOS, or provides support for other GNU/Linux distributions.
 The Database section of the Puppet does not consider parameters like hostname and port at the moment. Furthermore there a lot of variables of diaspora.yml that are not covered (e.g. mail server configuration, unicorn workers, and more).
 
   [diaspora*]: https://github.com/diaspora/diaspora
