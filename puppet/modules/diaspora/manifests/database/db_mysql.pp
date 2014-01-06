@@ -7,12 +7,27 @@ class diaspora::database::db_mysql (
   $db_root_password = 'diaspora_root',
 ) {
 
+  $mysql_service_name = $operatingsystem ? {
+    /(Ubuntu|Debian)/         => 'mysql',
+    /(CentOS|RedHat|Amazon)/  => 'mysqld',
+    default                   => 'mysqld',
+  }
+
   package { 'mysql-server':
    ensure => 'installed'
   }
 
+  service { 'mysql-server':
+    name        => $mysql_service_name,
+    ensure      => 'running',
+    hasrestart  => 'true',
+    hasstatus   => 'true',
+    require     => Package['mysql-server'],
+  }
+
   exec { 'mysql_root_password':
    subscribe   => Package['mysql-server'],
+   require     => Service['mysql-server'],
    refreshonly => true,
    unless      => "mysqladmin -uroot -p${db_root_password} status",
    path        => "/bin:/usr/bin",
