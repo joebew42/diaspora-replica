@@ -1,22 +1,33 @@
-# diaspora* -Replica
+# diaspora*-replica
 
-The aim of this project is to provide some tools that can help you to deploy [diaspora*] pod through the automation of two tasks:
+## Table of contents
+
+1. [Overview - What is diaspora*-replica?](#overview)
+2. [Deploy a development pod](#deploy-a-development-pod)
+3. [Simulate a production deploy](#simulate-a-production-deploy)
+4. [Deploy a real diaspora* POD](#deploy-a-real-diaspora-pod)
+5. [Using PostgreSQL Database](#using-postgresql-database)
+6. [Which Operating Systems are supported?](#which-operating-systems-are-supported-)
+7. [How to contribute this project](#how-to-contribute-this-project)
+
+## Overview
+
+The aim of this project is to provide some tools that can help you to deploy [diaspora*] POD through the automation of two tasks:
 
 * The deploy and configuration of the machine with [Vagrant 2] and [Puppet]
 * The deploy of Diaspora* itself with [Capistrano 3]
 
 With these two tasks you can automatically set up different environments, from development to production installation.
 
-## Deploy a development pod
-
-If you are a developer and you want to try diaspora without messing up your computer by installing and configuring extra packages, you can set up a virtual machine that is executed by Vagrant and then automatically configured by Puppet.
-Now that you have a fully configured virtual machine ready to host a diaspora application, will be very easy to deploy it with Capistrano.
-
 ### Configure a fake FQDN in your system
 
-Put this entry in your ``/etc/hosts``
+You will find a Vagrantfile, Puppet and Capistrano already configured to handle three kind of environment: ``development``, ``staging`` and ``production``. Before start using these tools is necessary to update your ``/etc/hosts`` file, adding to it the three FQDN for the local diaspora* installation.
+
+Put these entries in your ``/etc/hosts``
 ```
 192.168.11.2    development.diaspora.local
+192.168.11.3    staging.diaspora.local
+192.168.11.4    production.diaspora.local
 ```
 
 ### Initialize project
@@ -27,10 +38,15 @@ cd diaspora_replica
 git submodule update --init
 ```
 
+## Deploy a development pod
+
+If you are a developer and you want to try diaspora without messing up your computer by installing and configuring extra packages, you can set up a virtual machine that is executed by Vagrant and then automatically configured by Puppet.
+Now that you have a fully configured virtual machine ready to host a diaspora application, will be very easy to deploy it with Capistrano.
+
 ### Set up the virtual machine with Vagrant/Puppet
 
 ```
-vagrant up
+vagrant up development
 ```
 Wait until the virtual machine is automatically setted up with puppet and is up and running.
 
@@ -64,36 +80,9 @@ cap development deploy:restart
 
 ## Simulate a production deploy
 
-If you want to simulate a production deploy of diaspora* POD, you can do that simply modifying the ``Vagrantfile`` and the ``puppet/manifests/site.pp``. In your ``Vagrantfile``, you have to specify the *hostname* of the machine to **production.diaspora.local**
+Simply execute
 
-### puppet/manifests/site.pp
-
-```puppet
-node 'production.diaspora.local' {
-  class { 'diaspora':
-    hostname           => $fqdn,
-    environment        => 'production',
-    app_directory      => '/home/diaspora',
-    user               => 'diaspora',
-    group              => 'diaspora',
-    db_provider        => 'mysql',
-    db_host            => 'localhost',
-    db_port            => '3306',
-    db_name            => 'diaspora_production',
-    db_username        => 'diaspora',
-    db_password        => 'diaspora',
-    db_root_password   => 'diaspora_root'
-  }
-}
-```
-And edits your ``/etc/hosts`` putting this entry:
-
-```
-192.168.11.2    production.diaspora.local
-```
-After that, execute vagrant:
-
-```vagrant up```
+```vagrant up production```
 
 and proceed to deploy diaspora* with capistrano:
 

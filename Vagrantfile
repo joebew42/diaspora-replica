@@ -13,14 +13,26 @@ Vagrant.configure("2") do |config|
   #config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
   #config.vm.provision :shell, :inline => "yum -y update"
 
-  config.vm.hostname = "development.diaspora.local"
-  config.vm.network :private_network, ip: "192.168.11.2"
-
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "puppet/manifests"
     puppet.module_path = "puppet/modules"
     puppet.manifest_file  = "site.pp"
     puppet.options = "--verbose"
+  end
+
+  config.vm.define "development" do |dev|
+    dev.vm.hostname = "development.diaspora.local"
+    dev.vm.network :private_network, ip: "192.168.11.2"
+  end
+
+  config.vm.define "staging" do |stag|
+    stag.vm.hostname = "staging.diaspora.local"
+    stag.vm.network :private_network, ip: "192.168.11.3"
+  end
+
+  config.vm.define "production" do |prod|
+    prod.vm.hostname = "production.diaspora.local"
+    prod.vm.network :private_network, ip: "192.168.11.4"
   end
 
 end
