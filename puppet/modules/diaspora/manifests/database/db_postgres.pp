@@ -1,4 +1,5 @@
 class diaspora::database::db_postgres (
+  $environment      = 'development',
   $db_host          = 'localhost',
   $db_port          = '5432',
   $db_name          = 'diaspora_development',
@@ -32,6 +33,12 @@ class diaspora::database::db_postgres (
     listen_addresses => '*'
   }
 
+  $superuser = $environment == 'development'
+
+  postgresql::server::role { $db_username:
+    superuser => $superuser,
+    password_hash => postgresql_password($db_username, $db_password)
+  }->
   postgresql::server::db { $db_name:
     user     => $db_username,
     password => postgresql_password($db_username, $db_password),

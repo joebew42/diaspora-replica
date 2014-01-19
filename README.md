@@ -7,8 +7,9 @@
 3. [Simulate a production deploy](#simulate-a-production-deploy)
 4. [Deploy a real diaspora* POD](#deploy-a-real-diaspora-pod)
 5. [Using PostgreSQL Database](#using-postgresql-database)
-6. [Which Operating Systems are supported?](#which-operating-systems-are-supported-)
-7. [How to contribute this project](#how-to-contribute-this-project)
+6. [How to set up a Development Environment](#how-to-set-up-a-development-environment)
+7. [Which Operating Systems are supported?](#which-operating-systems-are-supported-)
+8. [How to contribute this project](#how-to-contribute-this-project)
 
 ## Overview
 
@@ -199,6 +200,64 @@ and then add the generated Gemfile.lock under version control. Once you have don
 
 in ``capistrano/config/deploy/production.rb`` (or ``capistrano/config/deploy/staging.rb``, depends on which stage you are going to deploy.) Of course, you have to specify your git repository, too.
 
+## How to set up a Development Environment
+
+You can use these tools to easly set up a fully development environment for diaspora*. The ``development`` machine is configured within ``Vagrantfile`` with enough RAM (2GB) to run all tests.
+In this way you can write code using your preferred IDE or editor (``vim``, ``emacs``, ``eclipse`` and so on) directly from your local environment (the host machine), by executing tests within the ``development`` virtual machine.
+
+### Cloning your git repo to you host
+
+``Vagrantfile`` is configured to sync an host directory (``src``) with a guest directory (``diaspora_src``), for better I/O performance read the [Vagrant Synced Folder Documentation]. The first step is to clone your own diaspora* git repository into the local directory ``src``.
+
+```
+cd diaspora_replica
+git clone your_own_diapora_git_repo src
+```
+
+### Run development virtual machine
+
+```
+vagrant up development
+```
+
+### Enabling vagrant user to use rvm (first time set up)
+
+```
+vagrant ssh development
+vagrant@development:~$ sudo usermod -aG rvm vagrant && newgrp rvm
+vagrant@development:~$ /bin/bash --login
+```
+
+### Prepare the Rails application
+
+```
+vagrant@development:~$ cd diaspora_src
+```
+
+Prepare your configuration files ``diaspora.yml`` and ``database.yml``, put it into ``config/`` directory.
+
+### Configure Rubies and Gemsets
+
+```
+vagrant@development:~$ rvm use ruby-1.9.3-p448
+vagrant@development:~$ rvm gemset create diaspora_dev
+vagrant@development:~$ rvm gemset use diaspora_dev
+```
+
+### Install gems and create databases
+
+```
+vagrant@development:~$ bundle
+vagrant@development:~$ rake db:create
+vagrant@development:~$ rake db:migrate
+```
+
+### Run all tests
+
+```
+vagrant@development:~$ rake spec
+```
+
 ## Which Operating Systems are supported?
 
 At the moment we support **Ubuntu 12.04LTS Server** and **CentOS 6.4**
@@ -215,5 +274,6 @@ The Database section of the Puppet does not consider parameters like hostname an
   [diaspora*]: https://github.com/diaspora/diaspora
   [Vagrant 2]: http://www.vagrantup.com/
   [Vagrant Provider Documentation]: http://docs.vagrantup.com/v2/providers/index.html
+  [Vagrant Synced Folder Documentation]: http://docs.vagrantup.com/v2/synced-folders/nfs.html
   [Puppet]: http://puppetlabs.com/
   [Capistrano 3]: http://www.capistranorb.com/

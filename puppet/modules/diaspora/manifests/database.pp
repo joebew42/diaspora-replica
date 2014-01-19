@@ -1,4 +1,5 @@
 class diaspora::database (
+  $environment      = 'development',
   $db_provider      = 'mysql',
   $db_host          = 'localhost',
   $db_port          = '3306',
@@ -9,6 +10,7 @@ class diaspora::database (
 ) {
 
   class { "diaspora::database::db_$db_provider":
+    environment      => $environment,
     db_host          => $db_host,
     db_port          => $db_port,
     db_name          => $db_name,

@@ -25,6 +25,7 @@ class diaspora (
     system_user => $user
   }->
   class { 'diaspora::database':
+    environment      => $environment,
     db_provider      => $db_provider,
     db_host          => $db_host,
     db_port          => $db_port,
