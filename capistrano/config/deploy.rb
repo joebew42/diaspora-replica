@@ -29,11 +29,7 @@ namespace :deploy do
 
   desc 'Restart application'
   task :restart do
-    invoke 'unicorn:stop'
-    on roles(:web) do
-      execute :sleep, 3
-    end
-    invoke 'unicorn:start'
+    invoke 'unicorn:restart'
   end
 
   after :finishing, 'deploy:cleanup'
