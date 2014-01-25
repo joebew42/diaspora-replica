@@ -2,7 +2,7 @@ class diaspora (
   $hostname         = 'development.diaspora.local',
   $environment      = 'development',
   $rvm_version      = '1.25.14',
-  $ruby_version     = '1.9.3-p448',
+  $ruby_version     = '2.0.0',
   $app_directory    = '/home/diaspora',
   $user             = 'diaspora',
   $group            = 'diaspora',
