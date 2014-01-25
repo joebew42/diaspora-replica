@@ -2,6 +2,8 @@ node 'development.diaspora.local' {
   class { 'diaspora':
     hostname         => $fqdn,
     environment      => 'development',
+    rvm_version      => '1.25.14',
+    ruby_version     => '2.0.0',
     app_directory    => '/home/diaspora',
     user             => 'diaspora',
     group            => 'diaspora',
@@ -19,6 +21,8 @@ node 'staging.diaspora.local' {
   class { 'diaspora':
     hostname         => $fqdn,
     environment      => 'production',
+    rvm_version      => '1.25.14',
+    ruby_version     => '2.0.0',
     app_directory    => '/home/diaspora',
     user             => 'diaspora',
     group            => 'diaspora',
@@ -36,6 +40,8 @@ node 'production.diaspora.local' {
   class { 'diaspora':
     hostname         => $fqdn,
     environment      => 'production',
+    rvm_version      => '1.25.14',
+    ruby_version     => '2.0.0',
     app_directory    => '/home/diaspora',
     user             => 'diaspora',
     group            => 'diaspora',

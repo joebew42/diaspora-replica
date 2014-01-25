@@ -1,6 +1,8 @@
 class diaspora (
   $hostname         = 'development.diaspora.local',
   $environment      = 'development',
+  $rvm_version      = '1.25.14',
+  $ruby_version     = '1.9.3-p448',
   $app_directory    = '/home/diaspora',
   $user             = 'diaspora',
   $group            = 'diaspora',
@@ -22,7 +24,9 @@ class diaspora (
     group => $group
   }->
   class { 'diaspora::ruby':
-    system_user => $user
+    system_user  => $user,
+    rvm_version  => $rvm_version,
+    ruby_version => $ruby_version
   }->
   class { 'diaspora::database':
     environment      => $environment,
