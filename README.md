@@ -243,7 +243,7 @@ Prepare your configuration files ``diaspora.yml`` and ``database.yml``, put it i
 ### Configure Rubies and Gemsets
 
 ```
-vagrant@development:~$ rvm use ruby-1.9.3-p448
+vagrant@development:~$ rvm use 2.0.0
 vagrant@development:~$ rvm gemset create diaspora_dev
 vagrant@development:~$ rvm gemset use diaspora_dev
 ```
