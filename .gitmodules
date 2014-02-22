@@ -19,3 +19,6 @@
 [submodule "puppet/modules/firewall"]
 	path = puppet/modules/firewall
 	url = https://github.com/puppetlabs/puppetlabs-firewall.git
+[submodule "puppet/modules/diaspora"]
+	path = puppet/modules/diaspora
+	url = git@github.com:joebew42/puppet-diaspora.git
