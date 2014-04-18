@@ -1,24 +1,24 @@
 [submodule "puppet/modules/stdlib"]
-	path = puppet/modules/stdlib
-        url = https://github.com/puppetlabs/puppetlabs-stdlib.git
+    path = puppet/modules/stdlib
+    url = https://github.com/puppetlabs/puppetlabs-stdlib.git
 [submodule "jfryman"]
-	path = puppet/modules/nginx
-        url = https://github.com/jfryman/puppet-nginx.git
+    path = puppet/modules/nginx
+    url = https://github.com/jfryman/puppet-nginx.git
 [submodule "puppet/modules/apt"]
-	path = puppet/modules/apt
-        url = https://github.com/puppetlabs/puppetlabs-apt.git
+    path = puppet/modules/apt
+    url = https://github.com/puppetlabs/puppetlabs-apt.git
 [submodule "joe-rvm"]
-	path = puppet/modules/rvm
-        url = https://github.com/joebew42/puppet-rvm.git
+    path = puppet/modules/rvm
+    url = https://github.com/joebew42/puppet-rvm.git
 [submodule "puppet/modules/concat"]
-	path = puppet/modules/concat
-	url = https://github.com/puppetlabs/puppetlabs-concat.git
+    path = puppet/modules/concat
+    url = https://github.com/puppetlabs/puppetlabs-concat.git
 [submodule "puppet/modules/postgresql"]
-	path = puppet/modules/postgresql
-	url = https://github.com/puppetlabs/puppetlabs-postgresql.git
+    path = puppet/modules/postgresql
+    url = https://github.com/puppetlabs/puppetlabs-postgresql.git
 [submodule "puppet/modules/firewall"]
-	path = puppet/modules/firewall
-	url = https://github.com/puppetlabs/puppetlabs-firewall.git
+    path = puppet/modules/firewall
+    url = https://github.com/puppetlabs/puppetlabs-firewall.git
 [submodule "puppet/modules/diaspora"]
-	path = puppet/modules/diaspora
-	url = git@github.com:joebew42/puppet-diaspora.git
+    path = puppet/modules/diaspora
+    url = https://github.com/joebew42/puppet-diaspora.git
