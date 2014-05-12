@@ -8,7 +8,7 @@
 4. [Deploy a real diaspora* POD](#deploy-a-real-diaspora-pod)
 5. [Using PostgreSQL Database](#using-postgresql-database)
 6. [How to set up a Development Environment](#how-to-set-up-a-development-environment)
-7. [Which Operating Systems are supported?](#which-operating-systems-are-supported-)
+7. [Which Operating Systems are supported?](#which-operating-systems-are-supported)
 8. [How to contribute this project](#how-to-contribute-this-project)
 
 ## Overview
