@@ -19,3 +19,7 @@
 [submodule "puppet/modules/diaspora"]
     path = puppet/modules/diaspora
     url = https://github.com/joebew42/puppet-diaspora.git
+[submodule "puppet/modules/rvm"]
+    path = puppet/modules/rvm
+    url = https://github.com/maestrodev/puppet-rvm.git
+    branch = maestrodev
