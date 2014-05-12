@@ -15,8 +15,8 @@
 
 The aim of this project is to provide some tools that can help you to deploy [diaspora*] POD through the automation of two tasks:
 
-* The deploy and configuration of the machine with [Vagrant 2] and [Puppet]
-* The deploy of Diaspora* itself with [Capistrano 3]
+* The deploy and configuration of the machine with [Vagrant 2] (1.6.x) and [Puppet]
+* The deploy of Diaspora* itself with [Capistrano 3] (3.1)
 
 With these two tasks you can automatically set up different environments, from development to production installation.
 
@@ -35,7 +35,7 @@ Put these entries in your ``/etc/hosts``
 
 ```
 git clone https://github.com/joebew42/diaspora-replica.git
-cd diaspora_replica
+cd diaspora-replica
 git submodule update --init
 ```
 
@@ -264,11 +264,13 @@ vagrant@development:~$ rake spec
 
 ## Which Operating Systems are supported?
 
-At the moment we support **Ubuntu 12.04LTS Server** and **CentOS 6.4**
+* Ubuntu 14.04LTS Server
+* Ubuntu 12.04LTS Server
+* CentOS 6.4
 
 ### Choosing the OS from Vagrantfile
 
-By default the Vagrantfile will creates an Ubuntu box. If you want to switch for CentOS, you have to comment out the lines regarding Ubuntu and uncomment the lines about CentOS
+By default the ``Vagrantfile`` is configured to run an Ubuntu 14.04LTS Server box. If you want to switch to Ubuntu 12.04LTS Server or CentOS 6.4, you have to edit the file.
 
 ## How to contribute this project
 
