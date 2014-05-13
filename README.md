@@ -274,7 +274,7 @@ By default the ``Vagrantfile`` is configured to run an Ubuntu 14.04LTS Server bo
 
 ## How to contribute this project
 
-This project is under development. At the moment the Puppet provides support and, has been tested only on Ubuntu 12.04LTS server and CentOS 6.4. It could be useful if someone can test it over other version of Ubuntu or CentOS, or provides support for other GNU/Linux distributions.
+This project is under development. At the moment the Puppet provides support and, has been tested on Ubuntu 14.04LTS Server, Ubuntu 12.04LTS Server and CentOS 6.4. It could be useful if someone can test it over other version of Ubuntu or CentOS, or provides support for other GNU/Linux distributions.
 The Database section of the Puppet does not consider parameters like hostname and port at the moment. Furthermore there a lot of variables of diaspora.yml that are not covered (e.g. mail server configuration, unicorn workers, and more).
 
   [diaspora*]: https://github.com/diaspora/diaspora
