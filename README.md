@@ -8,8 +8,9 @@
 4. [Deploy a real diaspora* POD](#deploy-a-real-diaspora-pod)
 5. [Using PostgreSQL Database](#using-postgresql-database)
 6. [How to set up a Development Environment](#how-to-set-up-a-development-environment)
-7. [Which Operating Systems are supported?](#which-operating-systems-are-supported)
-8. [How to contribute this project](#how-to-contribute-this-project)
+7. [How to upgrade diaspora*-replica](#how-to-upgrade-diaspora-replica)
+8. [Which Operating Systems are supported?](#which-operating-systems-are-supported)
+9. [How to contribute this project](#how-to-contribute-this-project)
 
 ## Overview
 
@@ -260,6 +261,14 @@ vagrant@development:~$ rake db:migrate
 
 ```
 vagrant@development:~$ rake spec
+```
+
+## How to upgrade diaspora*-replica
+
+```
+cd diaspora-replica
+git pull --rebase origin master
+git submodule update
 ```
 
 ## Which Operating Systems are supported?
