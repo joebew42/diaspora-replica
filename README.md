@@ -68,7 +68,8 @@ cd capistrano
 cap development deploy deploy:restart
 ```
 
-Now, your diaspora* installation is up and running, you can go visit it at ``http://development.diaspora.local``
+When executed the first time, this step can take several minutes (about 20, based on your internet connection), because the diaspora git repository must be cloned.
+Once capistrano completed the deploy task your diaspora* installation is up and running at ``http://development.diaspora.local``
 
 ### Start, stop and restart
 
