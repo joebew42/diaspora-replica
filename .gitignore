@@ -2,3 +2,4 @@
 .ruby-version
 .vagrant
 src
+capistrano/.capistrano
