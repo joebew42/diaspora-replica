@@ -1,4 +1,4 @@
-set :stage, :staging
+set :stage, :production
 
 set :repo_url, 'https://github.com/diaspora/diaspora.git'
 set :branch, 'master'
