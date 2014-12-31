@@ -267,6 +267,7 @@ vagrant@development:~$ rvm gemset use diaspora_dev
 
 ```
 vagrant@development:~$ bundle
+vagrant@development:~$ rake generate:secret_token
 vagrant@development:~$ rake db:create
 vagrant@development:~$ rake db:migrate
 ```
@@ -274,7 +275,7 @@ vagrant@development:~$ rake db:migrate
 ### Run all tests
 
 ```
-vagrant@development:~$ rake spec
+vagrant@development:~$ rspec
 ```
 
 ## How to upgrade diaspora*-replica
