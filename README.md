@@ -5,7 +5,7 @@
 1. [Overview - What is diaspora*-replica?](#overview)
 2. [Deploy a development pod](#deploy-a-development-pod)
 3. [Simulate a production deploy](#simulate-a-production-deploy)
-4. [Deploy a real diaspora* POD](#deploy-a-real-diaspora-pod)
+4. [Deploy diaspora* on production environment](#deploy-diaspora-on-prouction-environment)
 5. [Using PostgreSQL Database](#using-postgresql-database)
 6. [How to set up a Development Environment](#how-to-set-up-a-development-environment)
 7. [How to upgrade diaspora*-replica](#how-to-upgrade-diaspora-replica)
@@ -21,9 +21,9 @@ The aim of this project is to provide some tools that can help you to deploy [di
 
 With these two tasks you can automatically set up different environments, from development to production installation.
 
-### Configure a fake FQDN in your system
+### Configure FQDNs in your system
 
-You will find a Vagrantfile, Puppet and Capistrano already configured to handle three kind of environment: ``development``, ``staging`` and ``production``. Before start using these tools is necessary to update your ``/etc/hosts`` file, adding to it the three FQDN for the local diaspora* installation.
+Vagrantfile, Puppet and Capistrano are already configured to handle three kind of environment: ``development``, ``staging`` and ``production``. If you want to try them you have to update ``/etc/hosts`` file, adding to it the three FQDN for the local diaspora* installation.
 
 Put these entries in your ``/etc/hosts``
 ```
@@ -61,24 +61,31 @@ cd capistrano/ && bundle
 ```
 
 ### Deploy diaspora* with Capistrano
+
 When the virtual machine is up and running, then you can deploy diaspora* on it using Capistrano
 
 ```
 cd capistrano
-cap development deploy deploy:restart
+cap development deploy
 ```
 
 When executed the first time, this step can take several minutes (about 20, based on your internet connection), because the diaspora git repository must be cloned.
-Once capistrano completed the deploy task your diaspora* installation is up and running at ``http://development.diaspora.local``
+Once capistrano completed the deploy task, you can start diaspora through ``foreman``
+
+```
+cap development foreman:start
+```
+
+Wait until unicorn workers are ready (about 30 seconds) and then your diaspora* installation will be up and running at ``http://development.diaspora.local``
 
 ### Start, stop and restart
 
 You can use Capistrano tasks to start, stop or restart diaspora*
 
 ```
-cap development deploy:start
-cap development deploy:stop
-cap development deploy:restart
+cap development foreman:start
+cap development foreman:stop
+cap development foreman:restart
 ```
 
 ## Simulate a production deploy
@@ -91,10 +98,10 @@ and proceed to deploy diaspora* with capistrano:
 
 ```
 cd capistrano
-cap production deploy deploy:restart
+cap production deploy foreman:start
 ```
 
-## Deploy a real diaspora* POD
+## Deploy diaspora* on production environment
 
 If you want to use these tools to deploy a production installation (e.g. staging or production), you have to configure some properties inside ``Vagrantfile``, ``puppet/manifests/site.pp``, ``capistrano/config/deploy/production.rb`` and of course, SSL certs and private/public keys for the server.
 
@@ -107,20 +114,26 @@ You have to configure your ``Vagrantfile`` based on the virtual machine provider
 ```puppet
 node 'myproduction.domain.com' {
   class { 'diaspora':
-    hostname           => $fqdn,
-    environment        => 'production',
-    rvm_version        => '1.25.14',
-    ruby_version       => '2.0.0',
-    app_directory      => '/home/diaspora',
-    user               => 'diaspora',
-    group              => 'diaspora',
-    db_provider        => 'mysql',
-    db_host            => 'localhost',
-    db_port            => '3306',
-    db_name            => 'diaspora_production',
-    db_username        => 'diaspora',
-    db_password        => 'diaspora',
-    db_root_password   => 'diaspora_root'
+    hostname            => $fqdn,
+    environment         => 'production',
+    rvm_version         => '1.26.3',
+    ruby_version        => '2.1.5',
+    app_directory       => '/home/diaspora',
+    user                => 'diaspora',
+    group               => 'diaspora',
+    db_provider         => 'mysql',
+    db_host             => 'localhost',
+    db_port             => '3306',
+    db_name             => 'diaspora_development',
+    db_username         => 'diaspora',
+    db_password         => 'diaspora',
+    db_root_password    => 'diaspora_root',
+    unicorn_worker      => 4,
+    sidekiq_concurrency => 5,
+    sidekiq_retry       => 10,
+    sidekiq_namespace   => 'diaspora',
+    foreman_web         => 1,
+    foreman_sidekiq     => 1
   }
 }
 ```
@@ -152,7 +165,7 @@ Once you have successfully configured the server, you can deploy and start diasp
 
 ```
 cd capistrano
-cap production deploy deploy:restart
+cap production deploy foreman:start
 ```
 
 ## Using PostgreSQL Database
@@ -245,7 +258,7 @@ Prepare your configuration files ``diaspora.yml`` and ``database.yml``, put it i
 ### Configure Rubies and Gemsets
 
 ```
-vagrant@development:~$ rvm use 2.0.0
+vagrant@development:~$ rvm use 2.1
 vagrant@development:~$ rvm gemset create diaspora_dev
 vagrant@development:~$ rvm gemset use diaspora_dev
 ```

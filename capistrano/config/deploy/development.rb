@@ -6,8 +6,6 @@ set :branch, 'develop'
 # Uncomment to enable postgresql support
 # set :default_env, { DB: 'postgres' }
 
-set :bundle_flags, '--quiet'
-
 role :web, %w{development.diaspora.local}
 role :app, %w{development.diaspora.local}
 role :db,  %w{development.diaspora.local}
