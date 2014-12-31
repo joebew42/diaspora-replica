@@ -137,7 +137,7 @@ node 'myproduction.domain.com' {
   }
 }
 ```
-Of course, you have to change *myproduction.domain.com* with your real Fully Qualified Domain Name, and set up strong password.
+Of course, you have to change *myproduction.domain.com* with your real Fully Qualified Domain Name, and adjust settings, if needed.
 
 ### Setup the SSL certificate for your server
 
