@@ -5,7 +5,7 @@
 1. [Overview - What is diaspora*-replica?](#overview)
 2. [Deploy a development pod](#deploy-a-development-pod)
 3. [Simulate a production deploy](#simulate-a-production-deploy)
-4. [Deploy diaspora* on production environment](#deploy-diaspora-on-prouction-environment)
+4. [Deploy diaspora* on production environment](#deploy-diaspora-on-production-environment)
 5. [Using PostgreSQL Database](#using-postgresql-database)
 6. [How to set up a Development Environment](#how-to-set-up-a-development-environment)
 7. [How to upgrade diaspora*-replica](#how-to-upgrade-diaspora-replica)
