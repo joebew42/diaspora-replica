@@ -124,7 +124,7 @@ node 'myproduction.domain.com' {
     db_provider         => 'mysql',
     db_host             => 'localhost',
     db_port             => '3306',
-    db_name             => 'diaspora_development',
+    db_name             => 'diaspora_production',
     db_username         => 'diaspora',
     db_password         => 'diaspora',
     db_root_password    => 'diaspora_root',
