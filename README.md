@@ -3,14 +3,13 @@
 ## Table of contents
 
 1. [Overview - What is diaspora*-replica?](#overview)
-2. [Deploy a development pod](#deploy-a-development-pod)
-3. [Simulate a production deploy](#simulate-a-production-deploy)
-4. [Deploy diaspora* on production environment](#deploy-diaspora-on-production-environment)
-5. [Using PostgreSQL Database](#using-postgresql-database)
-6. [How to set up a Development Environment](#how-to-set-up-a-development-environment)
-7. [How to upgrade diaspora*-replica](#how-to-upgrade-diaspora-replica)
-8. [Which Operating Systems are supported?](#which-operating-systems-are-supported)
-9. [How to contribute this project](#how-to-contribute-this-project)
+2. [Deploy diaspora* on local](#deploy-diaspora-on-local)
+3. [Deploy diaspora* on production environment](#deploy-diaspora-on-production-environment)
+4. [Using PostgreSQL Database](#using-postgresql-database)
+5. [How to set up a Development Environment](#how-to-set-up-a-development-environment)
+6. [How to upgrade diaspora*-replica](#how-to-upgrade-diaspora-replica)
+7. [Which Operating Systems are supported?](#which-operating-systems-are-supported)
+8. [How to contribute this project](#how-to-contribute-this-project)
 
 ## Overview
 
@@ -40,7 +39,7 @@ cd diaspora-replica
 git submodule update --init
 ```
 
-## Deploy a development pod
+## Deploy diaspora* on local
 
 If you are a developer and you want to try diaspora without messing up your computer by installing and configuring extra packages, you can set up a virtual machine that is executed by Vagrant and then automatically configured by Puppet.
 Now that you have a fully configured virtual machine ready to host a diaspora application, will be very easy to deploy it with Capistrano.
@@ -48,7 +47,7 @@ Now that you have a fully configured virtual machine ready to host a diaspora ap
 ### Set up the virtual machine with Vagrant/Puppet
 
 ```
-vagrant up development
+vagrant up production
 ```
 Wait until the virtual machine is automatically setted up with puppet and is up and running.
 
@@ -66,40 +65,78 @@ When the virtual machine is up and running, then you can deploy diaspora* on it 
 
 ```
 cd capistrano
-cap development deploy
+cap production deploy
 ```
 
 When executed the first time, this step can take several minutes (about 20, based on your internet connection), because the diaspora git repository must be cloned.
 Once capistrano completed the deploy task, you can start diaspora through ``foreman``
 
 ```
-cap development foreman:start
+cap production foreman:start
 ```
 
-Wait until unicorn workers are ready (about 30 seconds) and then your diaspora* installation will be up and running at ``http://development.diaspora.local``
+Wait until unicorn workers are ready (about 30 seconds) and then your diaspora* installation will be up and running at ``http://production.diaspora.local``
 
 ### Start, stop and restart
 
 You can use Capistrano tasks to start, stop or restart diaspora*
 
 ```
-cap development foreman:start
-cap development foreman:stop
-cap development foreman:restart
+cap production foreman:start
+cap production foreman:stop
+cap production foreman:restart
 ```
 
-## Simulate a production deploy
+### Deploy other branches
 
-Simply execute
+If you want to deploy a different branch of diaspora* (ex. ``develop`` instead of ``master``) you have to update `puppet/manifest/site.pp` by specifying correct `rvm` and `ruby` version:
 
-```vagrant up production```
+```puppet
+node 'production.domain.com' {
+  class { 'diaspora':
+    hostname            => $fqdn,
+    environment         => 'production',
+    rvm_version         => '1.26.3',
+    ruby_version        => '2.1.5',
+    app_directory       => '/home/diaspora',
+    user                => 'diaspora',
+    group               => 'diaspora',
+    db_provider         => 'mysql',
+    db_host             => 'localhost',
+    db_port             => '3306',
+    db_name             => 'diaspora_production',
+    db_username         => 'diaspora',
+    db_password         => 'diaspora',
+    db_root_password    => 'diaspora_root',
+    unicorn_worker      => 4,
+    sidekiq_concurrency => 5,
+    sidekiq_retry       => 10,
+    sidekiq_namespace   => 'diaspora',
+    foreman_web         => 1,
+    foreman_sidekiq     => 1
+  }
+}
+```
 
-and proceed to deploy diaspora* with capistrano:
+Set up the the `repo_url` and/or the `branch` that we want to deploy by editing ``capistrano/config/deploy/production.rb``
+
+```ruby
+...
+set :repo_url, 'https://github.com/diaspora/diaspora.git'
+set :branch, 'develop'
+...
+```
+
+Execute the provision of the machine and the deploy of diaspora*
 
 ```
-cd capistrano
-cap production deploy foreman:start
+vagrant up production
+cd capistrano/
+cap production deploy
+cap production foreman:start
 ```
+
+Check out your diaspora* installation at `http://production.diaspora.local`
 
 ## Deploy diaspora* on production environment
 
