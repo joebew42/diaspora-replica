@@ -92,7 +92,7 @@ cap production foreman:restart
 If you want to deploy a different branch of diaspora* (ex. ``develop`` instead of ``master``) you have to update `puppet/manifest/site.pp` by specifying correct `rvm` and `ruby` version:
 
 ```puppet
-node 'production.domain.com' {
+node 'production.diaspora.local' {
   class { 'diaspora':
     hostname            => $fqdn,
     environment         => 'production',
@@ -118,7 +118,7 @@ node 'production.domain.com' {
 }
 ```
 
-Set up the the `repo_url` and/or the `branch` that we want to deploy by editing ``capistrano/config/deploy/production.rb``
+Set up the the `repo_url` and/or the `branch` that we want to deploy by editing `capistrano/config/deploy/production.rb`
 
 ```ruby
 ...
