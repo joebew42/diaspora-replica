@@ -3,7 +3,7 @@
 ## Table of contents
 
 1. [Overview - What is diaspora*-replica?](#overview)
-2. [Deploy diaspora* on local](#deploy-diaspora-on-local)
+2. [Deploy diaspora* on local environment](#deploy-diaspora-on-local-environment)
 3. [Deploy diaspora* on production environment](#deploy-diaspora-on-production-environment)
 4. [Using PostgreSQL Database](#using-postgresql-database)
 5. [How to set up a Development Environment](#how-to-set-up-a-development-environment)
@@ -39,7 +39,7 @@ cd diaspora-replica
 git submodule update --init
 ```
 
-## Deploy diaspora* on local
+## Deploy diaspora* on local environment
 
 If you are a developer and you want to try diaspora without messing up your computer by installing and configuring extra packages, you can set up a virtual machine that is executed by Vagrant and then automatically configured by Puppet.
 Now that you have a fully configured virtual machine ready to host a diaspora application, will be very easy to deploy it with Capistrano.
