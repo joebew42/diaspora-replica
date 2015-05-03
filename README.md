@@ -317,7 +317,7 @@ vagrant@development:~$ rspec
 
 ## How to upgrade diaspora*-replica
 
-Follow these steps in order to upgrade an existing installation of diaspora*. In this example will consider the ``production`` environment (you can apply the same instructions for ``staging``, ``development`` or user defined environment).
+Follow these steps in order to upgrade an existing installation of diaspora*. In this example we'll consider the ``production`` environment (you can apply the same instructions for ``staging``, ``development`` or user defined environment).
 
 ```
 cd diaspora-replica/
