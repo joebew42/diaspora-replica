@@ -317,10 +317,19 @@ vagrant@development:~$ rspec
 
 ## How to upgrade diaspora*-replica
 
+Follow these steps in order to upgrade an existing installation of diaspora*. In this example will consider the ``production`` environment (you can apply the same instructions for ``staging``, ``development`` or user defined environment).
+
 ```
-cd diaspora-replica
+cd diaspora-replica/
 git pull --rebase origin master
 git submodule update
+
+vagrant up production
+vagrant provision production --provision-with puppet
+
+cd capistrano/
+cap production deploy
+cap production foreman:restart
 ```
 
 ## Which Operating Systems are supported?
