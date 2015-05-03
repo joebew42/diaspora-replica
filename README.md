@@ -68,7 +68,7 @@ cd capistrano
 cap production deploy
 ```
 
-When executed the first time, this step can take several minutes (about 20, based on your internet connection), because the diaspora git repository must be cloned.
+When executed the first time, this step can take several minutes (about 20, based on your internet connection), because the diaspora git repository must be cloned and the bundler will install ruby gems.
 Once capistrano completed the deploy task, you can start diaspora through ``foreman``
 
 ```
@@ -214,8 +214,8 @@ node 'development.diaspora.local' {
   class { 'diaspora':
     hostname         => $fqdn,
     environment      => 'development',
-    rvm_version      => '1.25.14',
-    ruby_version     => '2.0.0',
+    rvm_version      => '1.26.3',
+    ruby_version     => '2.1.5',
     app_directory    => '/home/diaspora',
     user             => 'diaspora',
     group            => 'diaspora',
