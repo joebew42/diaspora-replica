@@ -41,7 +41,7 @@ git submodule update --init
 
 ## Deploy diaspora* on local environment
 
-If you are a developer and you want to try diaspora without messing up your computer by installing and configuring extra packages, you can set up a virtual machine that is executed by Vagrant and then automatically configured by Puppet.
+If you want to try diaspora* without messing up your computer by installing and configuring extra packages, you can set up a virtual machine that is executed by Vagrant and then automatically configured by Puppet.
 Now that you have a fully configured virtual machine ready to host a diaspora application, will be very easy to deploy it with Capistrano.
 
 ### Set up the virtual machine with Vagrant/Puppet
@@ -75,7 +75,7 @@ Once capistrano completed the deploy task, you can start diaspora through ``fore
 cap production foreman:start
 ```
 
-Wait until unicorn workers are ready (about 30 seconds) and then your diaspora* installation will be up and running at ``http://production.diaspora.local``
+Wait until unicorn workers are ready (about 30/40 seconds) and then your diaspora* installation will be up and running at ``http://production.diaspora.local``
 
 ### Start, stop and restart
 
