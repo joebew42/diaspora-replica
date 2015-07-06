@@ -10,24 +10,27 @@
 6. [How to upgrade diaspora*-replica](#how-to-upgrade-diaspora-replica)
 7. [Which Operating Systems are supported?](#which-operating-systems-are-supported)
 8. [How to contribute this project](#how-to-contribute-this-project)
+9. [Troubleshooting](#troubleshooting)
 
 ## Overview
 
-The aim of this project is to provide some tools that can help you to deploy [diaspora*] POD through the automation of two tasks:
+The aim of this project is to provide a way to automate the provision and the deploy of a [diaspora*] POD through tools like [Vagrant 2] (1.7.x), [Puppet] and [Capistrano 3] (3.1)
 
-* The deploy and configuration of the machine with [Vagrant 2] (1.6.x) and [Puppet]
-* The deploy of Diaspora* itself with [Capistrano 3] (3.1)
+- If you are a developer you can use these tools to [setup a development environment](#how-to-set-up-a-development-environment)
+- If you are a POD maintainer you can use these tools to handle your infrastructure: from the provision of the machine, to the deploy of diaspora* itself
 
-With these two tasks you can automatically set up different environments, from development to production installation.
+## Deploy diaspora* on local environment
+
+If you want to try diaspora* without messing up your computer by installing and configuring extra packages, you can set up a virtual machine that is executed by Vagrant and then automatically configured by Puppet.
+Now that you have a fully configured virtual machine ready to host a diaspora application, will be very easy to deploy it with Capistrano.
 
 ### Configure FQDNs in your system
 
-Vagrantfile, Puppet and Capistrano are already configured to handle three kind of environment: ``development``, ``staging`` and ``production``. If you want to try them you have to update ``/etc/hosts`` file, adding to it the three FQDN for the local diaspora* installation.
+Vagrantfile, Puppet and Capistrano are already configured to handle two environments: ``development`` and ``production``. If you want to try them you have to update ``/etc/hosts`` file, adding to it the three FQDN for the local diaspora* installation.
 
 Put these entries in your ``/etc/hosts``
 ```
 192.168.11.2    development.diaspora.local
-192.168.11.3    staging.diaspora.local
 192.168.11.4    production.diaspora.local
 ```
 
@@ -39,17 +42,12 @@ cd diaspora-replica
 git submodule update --init
 ```
 
-## Deploy diaspora* on local environment
-
-If you want to try diaspora* without messing up your computer by installing and configuring extra packages, you can set up a virtual machine that is executed by Vagrant and then automatically configured by Puppet.
-Now that you have a fully configured virtual machine ready to host a diaspora application, will be very easy to deploy it with Capistrano.
-
 ### Set up the virtual machine with Vagrant/Puppet
 
 ```
 vagrant up production
 ```
-Wait until the virtual machine is automatically setted up with puppet and is up and running.
+Wait until the virtual machine is automatically created and configured.
 
 ### Install Capistrano with bundle (if you haven't)
 
@@ -69,22 +67,23 @@ cap production deploy
 ```
 
 When executed the first time, this step can take several minutes (about 20, based on your internet connection), because the diaspora git repository must be cloned and the bundler will install ruby gems.
-Once capistrano completed the deploy task, you can start diaspora through ``foreman``
+Once capistrano completed the deploy task, you can start diaspora through ``eye``
 
 ```
-cap production foreman:start
+cap production diaspora:eye:start
 ```
 
 Wait until unicorn workers are ready (about 30/40 seconds) and then your diaspora* installation will be up and running at ``http://production.diaspora.local``
 
-### Start, stop and restart
+### Start, stop, restart and info
 
-You can use Capistrano tasks to start, stop or restart diaspora*
+You can use Capistrano tasks to start, stop, restart or get information about diaspora*
 
 ```
-cap production foreman:start
-cap production foreman:stop
-cap production foreman:restart
+cap production diaspora:eye:start
+cap production diaspora:eye:stop
+cap production diaspora:eye:restart
+cap production diaspora:eye:info
 ```
 
 ### Deploy other branches
@@ -111,9 +110,7 @@ node 'production.diaspora.local' {
     unicorn_worker      => 4,
     sidekiq_concurrency => 5,
     sidekiq_retry       => 10,
-    sidekiq_namespace   => 'diaspora',
-    foreman_web         => 1,
-    foreman_sidekiq     => 1
+    sidekiq_namespace   => 'diaspora'
   }
 }
 ```
@@ -133,7 +130,7 @@ Execute the provision of the machine and the deploy of diaspora*
 vagrant up production
 cd capistrano/
 cap production deploy
-cap production foreman:start
+cap production diaspora:eye:start
 ```
 
 Check out your diaspora* installation at `http://production.diaspora.local`
@@ -168,9 +165,7 @@ node 'myproduction.domain.com' {
     unicorn_worker      => 4,
     sidekiq_concurrency => 5,
     sidekiq_retry       => 10,
-    sidekiq_namespace   => 'diaspora',
-    foreman_web         => 1,
-    foreman_sidekiq     => 1
+    sidekiq_namespace   => 'diaspora'
   }
 }
 ```
@@ -212,35 +207,34 @@ If you want to use PostgreSQL [1] instead of the default MySQL, you can configur
 ```puppet
 node 'development.diaspora.local' {
   class { 'diaspora':
-    hostname         => $fqdn,
-    environment      => 'development',
-    rvm_version      => '1.26.3',
-    ruby_version     => '2.1.5',
-    app_directory    => '/home/diaspora',
-    user             => 'diaspora',
-    group            => 'diaspora',
-    db_provider      => 'postgres',
-    db_host          => 'localhost',
-    db_port          => '5432',
-    db_name          => 'diaspora_development',
-    db_username      => 'diaspora',
-    db_password      => 'diaspora',
-    db_root_password => 'diaspora_root'
+    hostname            => $fqdn,
+    environment         => 'development',
+    rvm_version         => '1.26.3',
+    ruby_version        => '2.1.5',
+    app_directory       => '/home/diaspora',
+    user                => 'diaspora',
+    group               => 'diaspora',
+    db_provider         => 'postgresql',
+    db_host             => 'localhost',
+    db_port             => '5432',
+    db_name             => 'diaspora_development',
+    db_username         => 'diaspora',
+    db_password         => 'diaspora',
+    db_root_password    => 'diaspora_root',
+    unicorn_worker      => 4,
+    sidekiq_concurrency => 5,
+    sidekiq_retry       => 10,
+    sidekiq_namespace   => 'diaspora'
   }
 }
 ```
 note the `db_provider` and `db_port` parameters.
 
-And you have to uncomment the line:
-
-```ruby
-# set :default_env, { DB: 'postgres' }
-```
-That is present in your ``capistrano/config/deploy/development.rb``
+Also, in
 
 [1] Puppet will install PostgreSQL 9.1
 
-### PostgreSQL for Staging/Production environments
+### What if I want to deploy the branch master with Postgresql?
 
 Because of "--deployment" flag that is set up by default in capistrano bundler, it is necessary to fork diaspora* in a personal git repository and bundle it with PostgreSQL support:
 
@@ -248,13 +242,12 @@ Because of "--deployment" flag that is set up by default in capistrano bundler, 
 $ DB=postgres bundle
 ```
 
-and then add the generated Gemfile.lock under version control. Once you have done that, to enable PostgreSQL you have to uncomment this line,:
+Add the generated Gemfile.lock under version control. In ``capistrano/config/deploy/production.rb`` Of course, you have to specify your git repository, too:
 
-```ruby
-# set :default_env, { DB: 'postgres' }
 ```
-
-in ``capistrano/config/deploy/production.rb`` (or ``capistrano/config/deploy/staging.rb``, depends on which stage you are going to deploy.) Of course, you have to specify your git repository, too.
+set :repo_url, 'https://github.com/[your_github_username]/diaspora.git'
+set :branch, '[your_branch]'
+```
 
 ## How to set up a Development Environment
 
@@ -329,7 +322,7 @@ vagrant provision production --provision-with puppet
 
 cd capistrano/
 cap production deploy
-cap production foreman:restart
+cap production diaspora:eye:restart
 ```
 
 ## Which Operating Systems are supported?
@@ -346,6 +339,24 @@ By default the ``Vagrantfile`` is configured to run an Ubuntu 14.04LTS Server bo
 
 This project is under development. At the moment the Puppet provides support and, has been tested on Ubuntu 14.04LTS Server, Ubuntu 12.04LTS Server and CentOS 6.4. It could be useful if someone can test it over other version of Ubuntu or CentOS, or provides support for other GNU/Linux distributions.
 The Database section of the Puppet does not consider parameters like hostname and port at the moment. Furthermore there a lot of variables of diaspora.yml that are not covered (e.g. mail server configuration, unicorn workers, and more).
+
+## Troubleshooting
+
+### Net::SSH::HostKeyMismatch
+
+When I run `cap production deploy` I get this error message:
+
+```
+SSHKit::Runner::ExecuteError: Exception while executing as diaspora@production.diaspora.local: fingerprint 83:1c:52:22:d1:9c:86:5b:1b:29:80:17:95:5d:a0:29 does not match for "production.diaspora.local,192.168.11.4"
+
+Net::SSH::HostKeyMismatch: fingerprint 83:1c:52:22:d1:9c:86:5b:1b:29:80:17:95:5d:a0:29 does not match for "production.diaspora.local,192.168.11.4"
+```
+
+To solve this problem, remove the host entry from your known hosts
+
+```
+ssh-keygen -R production.diaspora.local
+```
 
   [diaspora*]: https://github.com/diaspora/diaspora
   [Vagrant 2]: http://www.vagrantup.com/

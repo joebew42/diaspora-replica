@@ -3,9 +3,6 @@ set :stage, :development
 set :repo_url, 'https://github.com/diaspora/diaspora.git'
 set :branch, 'develop'
 
-# Uncomment to enable postgresql support
-# set :default_env, { DB: 'postgres' }
-
 role :web, %w{development.diaspora.local}
 role :app, %w{development.diaspora.local}
 role :db,  %w{development.diaspora.local}

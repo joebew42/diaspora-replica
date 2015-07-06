@@ -34,14 +34,6 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "staging" do |stag|
-    stag.vm.hostname = "staging.diaspora.local"
-    stag.vm.network :private_network, ip: "192.168.11.3"
-    stag.vm.provider "virtualbox" do |vb|
-      vb.memory = 2048
-    end
-  end
-
   config.vm.define "production" do |prod|
     prod.vm.hostname = "production.diaspora.local"
     prod.vm.network :private_network, ip: "192.168.11.4"

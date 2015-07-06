@@ -16,9 +16,6 @@ GEM
       capistrano (~> 3.0)
       sshkit (~> 1.2)
     capistrano-stats (1.1.1)
-    capistrano3-foreman (0.2.5)
-      capistrano (~> 3.0)
-      sshkit (>= 1.2.0)
     colorize (0.7.5)
     i18n (0.7.0)
     net-scp (1.2.1)
@@ -37,4 +34,3 @@ DEPENDENCIES
   capistrano
   capistrano-rails
   capistrano-rvm
-  capistrano3-foreman

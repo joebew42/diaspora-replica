@@ -1,0 +1,64 @@
+namespace :diaspora do
+  namespace :eye do
+    desc 'Load eye configuration'
+    task :load do
+      on roles(:app) do
+        within "#{current_path}" do
+          with rails_env: "#{fetch(:stage)}" do
+            execute :bundle, :exec, "eye load #{fetch(:eye_config)}"
+          end
+        end
+      end
+    end
+
+    %i(start stop restart).each do |cmd|
+      desc "#{cmd} eye application"
+      task cmd do
+        on roles(:app) do
+          within "#{current_path}" do
+            with rails_env: "#{fetch(:stage)}" do
+              execute :bundle, :exec, :eye, cmd, fetch(:eye_application)
+            end
+          end
+        end
+      end
+    end
+
+    desc 'Show info about application'
+    task :info do
+      on roles(:app) do
+        within "#{current_path}" do
+          with rails_env: "#{fetch(:stage)}" do
+            puts capture(:bundle, :exec, :eye, :info, fetch(:eye_application))
+          end
+        end
+      end
+    end
+
+    desc 'Quit eye'
+    task :quit do
+      on roles(:app) do
+        within "#{current_path}" do
+          with rails_env: "#{fetch(:stage)}" do
+            execute :bundle, :exec, :eye, :quit
+          end
+        end
+      end
+    end
+
+    before :start, :load
+    before :restart, :load
+
+    before :load, :quit
+
+    after :start, :info
+    after :restart, :info
+  end
+end
+
+namespace :load do
+  task :defaults do
+    set :eye_application, -> { fetch(:application) }
+    set :eye_config, -> { "./config/eye.rb" }
+  end
+end
