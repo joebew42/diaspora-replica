@@ -26,7 +26,7 @@ Now that you have a fully configured virtual machine ready to host a diaspora ap
 
 ### Configure FQDNs in your system
 
-Vagrantfile, Puppet and Capistrano are already configured to handle two environments: ``development`` and ``production``. If you want to try them you have to update ``/etc/hosts`` file, adding to it the three FQDN for the local diaspora* installation.
+Vagrantfile, Puppet and Capistrano are already configured to handle two environments: ``development`` and ``production``. If you want to try them you have to update ``/etc/hosts`` file, adding to it the FQDNs for the local diaspora* installation.
 
 Put these entries in your ``/etc/hosts``
 ```
@@ -230,8 +230,6 @@ node 'development.diaspora.local' {
 ```
 note the `db_provider` and `db_port` parameters.
 
-Also, in
-
 [1] Puppet will install PostgreSQL 9.1
 
 ### What if I want to deploy the branch master with Postgresql?
@@ -242,7 +240,7 @@ Because of "--deployment" flag that is set up by default in capistrano bundler, 
 $ DB=postgres bundle
 ```
 
-Add the generated Gemfile.lock under version control. In ``capistrano/config/deploy/production.rb`` Of course, you have to specify your git repository, too:
+Add the generated Gemfile.lock under version control. In ``capistrano/config/deploy/production.rb`` you have to specify your git repository:
 
 ```
 set :repo_url, 'https://github.com/[your_github_username]/diaspora.git'
