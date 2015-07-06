@@ -14,7 +14,7 @@
 
 ## Overview
 
-The aim of this project is to provide a way to automate the provision and the deploy of a [diaspora*] POD through tools like [Vagrant 2] (1.7.x), [Puppet] and [Capistrano 3] (3.1)
+The aim of this project is to provide a way to automate the provision and the deploy of a [diaspora*] POD through tools like [Vagrant 2], [Puppet] and [Capistrano 3]
 
 - If you are a developer you can use these tools to [setup a development environment](#how-to-set-up-a-development-environment)
 - If you are a POD maintainer you can use these tools to automatically provision and configure machines (on a bare-metal server or cloud providers) and deploy diaspora* on it
@@ -259,7 +259,7 @@ In this way you can write code using your preferred IDE or editor (``vim``, ``em
 ``Vagrantfile`` is configured to sync an host directory (``src``) with a guest directory (``diaspora_src``), for better I/O performance read the [Vagrant Synced Folder Documentation]. The first step is to clone your own diaspora* git repository into the local directory ``src``.
 
 ```
-cd diaspora_replica
+cd diaspora-replica
 git clone your_own_diapora_git_repo src
 ```
 
