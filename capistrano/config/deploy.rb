@@ -12,7 +12,7 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 set :keep_releases, 5
 
 set :default_env, { DB: 'all' }
-set :bundle_flags, "--with mysql postgresql --deployment"
+set :bundle_flags, "--with mysql postgresql" # add "--deployment"
 
 namespace :deploy do
   after :finishing, 'deploy:cleanup'
