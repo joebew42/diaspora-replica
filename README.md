@@ -17,7 +17,7 @@
 The aim of this project is to provide a way to automate the provision and the deploy of a [diaspora*] POD through tools like [Vagrant 2] (1.7.x), [Puppet] and [Capistrano 3] (3.1)
 
 - If you are a developer you can use these tools to [setup a development environment](#how-to-set-up-a-development-environment)
-- If you are a POD maintainer you can use these tools to handle your infrastructure: from the provision of the machine, to the deploy of diaspora* itself
+- If you are a POD maintainer you can use these tools to automatically provision and configure machines (on a bare-metal server or cloud providers) and deploy diaspora* on it
 
 ## Deploy diaspora* on local environment
 
