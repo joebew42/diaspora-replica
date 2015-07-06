@@ -197,7 +197,7 @@ Once you have successfully configured the server, you can deploy and start diasp
 
 ```
 cd capistrano
-cap production deploy foreman:start
+cap production deploy diaspora:eye:start
 ```
 
 ## Using PostgreSQL Database
