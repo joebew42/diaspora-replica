@@ -252,13 +252,21 @@ set :branch, '[your_branch]'
 You can use these tools to easly set up a fully development environment for diaspora*. The ``development`` machine is configured within ``Vagrantfile`` with enough RAM (2GB) to run all tests.
 In this way you can write code using your preferred IDE or editor (``vim``, ``emacs``, ``eclipse`` and so on) directly from your local environment (the host machine), by executing tests within the ``development`` virtual machine.
 
-### Cloning your git repo to you host
+### Cloning your git repository to your computer
 
 ``Vagrantfile`` is configured to sync an host directory (``src``) with a guest directory (``diaspora_src``), for better I/O performance read the [Vagrant Synced Folder Documentation]. The first step is to clone your own diaspora* git repository into the local directory ``src``.
 
 ```
 cd diaspora-replica
 git clone your_own_diapora_git_repo src
+```
+
+Create a new branch or switch to existing one (eg. `master` or `develop`). Lets say we want to switch to the `develop` branch:
+
+```
+cd src/
+git checkout develop
+cd ..
 ```
 
 ### Run development virtual machine
@@ -286,7 +294,12 @@ Prepare your configuration files ``diaspora.yml`` and ``database.yml``, put it i
 ### Configure Rubies and Gemsets
 
 ```
-vagrant@development:~$ rvm use 2.1
+vagrant@development:~$ rvm use 2.2
+```
+
+The line above is just an example, since you have to remember to choose the right `rubies` accordingly to `.ruby-version` file
+
+```
 vagrant@development:~$ rvm gemset create diaspora_dev
 vagrant@development:~$ rvm gemset use diaspora_dev
 ```
@@ -294,16 +307,28 @@ vagrant@development:~$ rvm gemset use diaspora_dev
 ### Install gems and create databases
 
 ```
-vagrant@development:~$ bundle
+vagrant@development:~$ bundle install --with mysql postgresql
+```
+
+If `bundle` fails consider to update it with `gem update bundler`
+
+```
 vagrant@development:~$ rake generate:secret_token
 vagrant@development:~$ rake db:create
 vagrant@development:~$ rake db:migrate
 ```
 
+### Prepare test environment
+
+```
+vagrant@development:~$ rake db:test:prepare
+vagrant@development:~$ rake assets:generate_error_pages
+```
+
 ### Run all tests
 
 ```
-vagrant@development:~$ rspec
+vagrant@development:~$ bundle exec rake
 ```
 
 ## How to upgrade diaspora*-replica
