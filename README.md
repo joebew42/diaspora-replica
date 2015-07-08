@@ -252,7 +252,7 @@ set :branch, '[your_branch]'
 You can use these tools to easly set up a fully development environment for diaspora*. The ``development`` machine is configured within ``Vagrantfile`` with enough RAM (2GB) to run all tests.
 In this way you can write code using your preferred IDE or editor (``vim``, ``emacs``, ``eclipse`` and so on) directly from your local environment (the host machine), by executing tests within the ``development`` virtual machine.
 
-### Cloning your git repository to your computer
+### Cloning your git repository in src/ directory
 
 ``Vagrantfile`` is configured to sync an host directory (``src``) with a guest directory (``diaspora_src``), for better I/O performance read the [Vagrant Synced Folder Documentation]. The first step is to clone your own diaspora* git repository into the local directory ``src``.
 
@@ -297,7 +297,7 @@ Prepare your configuration files ``diaspora.yml`` and ``database.yml``, put it i
 vagrant@development:~$ rvm use 2.2
 ```
 
-The line above is just an example, since you have to remember to choose the right `rubies` accordingly to `.ruby-version` file
+The line above is just an example, since you have to remember to choose the right `rubies` accordingly to `.ruby-version` file.
 
 ```
 vagrant@development:~$ rvm gemset create diaspora_dev
