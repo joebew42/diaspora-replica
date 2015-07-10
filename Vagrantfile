@@ -4,19 +4,18 @@
 Vagrant.configure("2") do |config|
 
   # Ubuntu Server 14.04 LTS
-  config.vm.box = "ubuntu_server_1404_x64"
-  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
-  config.vm.provision :shell, :inline => "apt-get update -y --fix-missing"
+  config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
+  config.vm.provision :shell, inline: "apt-get update -y --fix-missing"
 
   # Ubuntu Server 12.04 LTS
-  # config.vm.box = "ubuntu_server_1204_x64"
-  # config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box"
-  # config.vm.provision :shell, :inline => "apt-get update -y --fix-missing"
+  # config.vm.box = "puppetlabs/ubuntu-12.04-64-puppet"
+  # config.vm.provision :shell, inline: "apt-get update -y --fix-missing"
 
-  # CentOS 6.4
-  #config.vm.box = "centos_64_x64"
-  #config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
-  #config.vm.provision :shell, :inline => "yum -y update"
+  # CentOS 7
+  # *** Not yet supported! ***
+  # See the issue: https://github.com/joebew42/diaspora-replica/issues/9
+  # config.vm.box = "puppetlabs/centos-7.0-64-puppet"
+  # config.vm.provision :shell, inline: "yum -y update"
 
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "puppet/manifests"
