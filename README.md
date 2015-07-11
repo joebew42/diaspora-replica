@@ -254,7 +254,7 @@ In this way you can write code using your preferred IDE or editor (``vim``, ``em
 
 ### Cloning your git repository in src/ directory
 
-``Vagrantfile`` is configured to sync an host directory (``src``) with a guest directory (``diaspora_src``), for better I/O performance read the [Vagrant Synced Folder Documentation]. The first step is to clone your own diaspora* git repository into the local directory ``src``.
+Ensure you have `nfs-server` installed and running on your host. ``Vagrantfile`` is configured to synchronize an host directory (``src/``) with the guest directory (``diaspora_src/``). For better I/O performance read the [Vagrant Synced Folder Documentation]. The first step is to clone your own diaspora* git repository into the local directory ``src``.
 
 ```
 cd diaspora-replica
