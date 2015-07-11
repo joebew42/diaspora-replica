@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "development" do |dev|
     dev.vm.hostname = "development.diaspora.local"
     dev.vm.network :private_network, ip: "192.168.11.2"
-    dev.vm.synced_folder "src/", "/home/vagrant/diaspora_src/", create: true
+    dev.vm.synced_folder "src/", "/home/vagrant/diaspora_src/", create: true, type: "nfs"
     dev.vm.provider "virtualbox" do |vb|
       vb.memory = 2048
     end
