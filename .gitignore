@@ -1,5 +1,3 @@
-.ruby-gemset
-.ruby-version
 .vagrant
 src
 capistrano/.capistrano
