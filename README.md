@@ -258,6 +258,20 @@ set :branch, '[your_branch]'
 You can use these tools to easly set up a fully development environment for diaspora*. The ``development`` machine is configured within ``Vagrantfile`` with enough RAM (2GB) to run all tests.
 In this way you can write code using your preferred IDE or editor (``vim``, ``emacs``, ``eclipse`` and so on) directly from your local environment (the host machine), by executing tests within the ``development`` virtual machine.
 
+### Initialize project
+
+```
+git clone https://github.com/joebew42/diaspora-replica.git
+cd diaspora-replica
+git submodule update --init
+```
+
+### Install vagrant plugins
+
+```
+vagrant plugin install vagrant-puppet-install
+```
+
 ### Cloning your git repository in src/ directory
 
 Ensure you have `nfs-server` installed and running on your host. ``Vagrantfile`` is configured to synchronize an host directory (``src/``) with the guest directory (``diaspora_src/``). For better I/O performance read the [Vagrant Synced Folder Documentation]. The first step is to clone your own diaspora* git repository into the local directory ``src``.
