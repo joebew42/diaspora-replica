@@ -3,6 +3,10 @@
 
 Vagrant.configure("2") do |config|
 
+  if Vagrant.has_plugin?('vagrant-puppet-install')
+    config.puppet_install.puppet_version = '3.7.3'
+  end
+
   # Ubuntu Server 14.04 LTS
   config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
   config.vm.provision :shell, inline: "apt-get update -y --fix-missing"

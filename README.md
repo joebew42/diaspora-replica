@@ -42,6 +42,12 @@ cd diaspora-replica
 git submodule update --init
 ```
 
+### Install vagrant plugins
+
+```
+vagrant plugin install vagrant-puppet-install
+```
+
 ### Set up the virtual machine with Vagrant/Puppet
 
 ```
