@@ -330,7 +330,7 @@ vagrant@development:~$ rvm gemset use diaspora_dev
 vagrant@development:~$ bundle install --with mysql postgresql
 ```
 
-If `bundle` fails consider to update it with `gem update bundler`
+If `bundle` fails consider to update it with `gem update bundler`. Or if is not installed run `gem install bundler`.
 
 ```
 vagrant@development:~$ rake generate:secret_token
