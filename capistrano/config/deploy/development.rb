@@ -17,6 +17,7 @@ set :rvm_type, :system
 set :rvm_ruby_version, '2.2@diaspora'
 
 set :rails_env, 'development'
+set :bundle_without, []
 
 set :assets_roles, [:none] # No assets compile for development
 
