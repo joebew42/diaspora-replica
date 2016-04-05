@@ -54,6 +54,23 @@ namespace :diaspora do
     after :start, :info
     after :restart, :info
   end
+
+  namespace :fixtures do
+    desc "Generates fixtures and load them to the database"
+    task :generate_and_load do
+      on roles(:app) do
+        within "#{current_path}" do
+          with rails_env: "test" do
+            execute :bundle, :exec, :rake, "db:drop db:create db:schema:load"
+          end
+          execute :bundle, :exec, :rake, "tests:generate_fixtures"
+          with rails_env: "#{fetch(:rails_env)}", FIXTURES_PATH: "spec/fixtures" do
+            execute :bundle, :exec, :rake, "db:fixtures:load"
+          end
+        end
+      end
+    end
+  end
 end
 
 namespace :load do
