@@ -2,3 +2,4 @@
 src
 capistrano/.capistrano
 capistrano/bin
+*~
