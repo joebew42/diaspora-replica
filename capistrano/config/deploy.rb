@@ -14,6 +14,9 @@ set :keep_releases, 5
 set :default_env, { DB: 'all' }
 set :bundle_flags, "--with mysql postgresql" # add "--deployment"
 
+# for capistano-db-tasks
+set :compressor, :bzip2
+
 namespace :deploy do
   after :finishing, 'deploy:cleanup'
 end

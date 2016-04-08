@@ -2,4 +2,5 @@
 src
 capistrano/.capistrano
 capistrano/bin
+capistrano/db/*
 *~
