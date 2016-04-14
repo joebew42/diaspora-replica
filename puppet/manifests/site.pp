@@ -17,7 +17,8 @@ node 'development.diaspora.local' {
     unicorn_worker      => 4,
     sidekiq_concurrency => 5,
     sidekiq_retry       => 10,
-    sidekiq_namespace   => 'diaspora'
+    sidekiq_namespace   => 'diaspora',
+    enable_captcha      => false
   }
 }
 
