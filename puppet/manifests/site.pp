@@ -2,7 +2,7 @@ node 'development.diaspora.local' {
   class { 'diaspora':
     hostname            => $fqdn,
     environment         => 'development',
-    rvm_version         => '1.26.11',
+    rvm_version         => '1.27.0',
     ruby_version        => '2.2',
     app_directory       => '/home/diaspora',
     user                => 'diaspora',
@@ -26,7 +26,7 @@ node 'production.diaspora.local' {
   class { 'diaspora':
     hostname            => $fqdn,
     environment         => 'production',
-    rvm_version         => '1.26.11',
+    rvm_version         => '1.27.0',
     ruby_version        => '2.1.5',
     app_directory       => '/home/diaspora',
     user                => 'diaspora',
