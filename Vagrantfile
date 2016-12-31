@@ -7,19 +7,8 @@ Vagrant.configure("2") do |config|
     config.puppet_install.puppet_version = '3.7.3'
   end
 
-  # Ubuntu Server 14.04 LTS
-  config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
+  config.vm.box = "ubuntu/trusty64"
   config.vm.provision :shell, inline: "apt-get update -y --fix-missing"
-
-  # Ubuntu Server 12.04 LTS
-  # config.vm.box = "puppetlabs/ubuntu-12.04-64-puppet"
-  # config.vm.provision :shell, inline: "apt-get update -y --fix-missing"
-
-  # CentOS 7
-  # *** Not yet supported! ***
-  # See the issue: https://github.com/joebew42/diaspora-replica/issues/9
-  # config.vm.box = "puppetlabs/centos-7.0-64-puppet"
-  # config.vm.provision :shell, inline: "yum -y update"
 
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "puppet/manifests"
