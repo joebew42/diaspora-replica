@@ -1,7 +1,6 @@
 set :application, 'diaspora'
 
 set :deploy_to, '/home/diaspora'
-set :scm, :git
 
 set :format, :pretty
 set :log_level, :debug
@@ -18,5 +17,6 @@ set :bundle_flags, "--with mysql postgresql" # add "--deployment"
 set :compressor, :bzip2
 
 namespace :deploy do
+  before 'deploy:assets:precompile', 'diaspora:secret_token'
   after :finishing, 'deploy:cleanup'
 end

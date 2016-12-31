@@ -1,4 +1,12 @@
 namespace :diaspora do
+
+  desc 'Generates a Session Secret Token'
+  task :secret_token do
+    on roles(:app) do
+      upload! StringIO.new("Diaspora::Application.config.secret_key_base = '#{SecureRandom.hex(40)}'"), "#{release_path}/config/initializers/secret_token.rb"
+    end
+  end
+
   namespace :eye do
     desc 'Load eye configuration'
     task :load do

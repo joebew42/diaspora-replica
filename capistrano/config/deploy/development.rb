@@ -3,6 +3,8 @@ set :stage, :development
 set :repo_url, 'https://github.com/diaspora/diaspora.git'
 set :branch, 'develop'
 
+set :git_shallow_clone, 1
+
 role :web, %w{development.diaspora.local}
 role :app, %w{development.diaspora.local}
 role :db,  %w{development.diaspora.local}
@@ -14,7 +16,7 @@ ssh_options = {
 }
 
 set :rvm_type, :system
-set :rvm_ruby_version, '2.2@diaspora'
+set :rvm_ruby_version, '2.3@diaspora'
 
 set :rails_env, 'development'
 set :bundle_without, []

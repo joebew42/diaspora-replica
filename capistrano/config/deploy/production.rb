@@ -3,6 +3,8 @@ set :stage, :production
 set :repo_url, 'https://github.com/diaspora/diaspora.git'
 set :branch, 'master'
 
+set :git_shallow_clone, 1
+
 role :web, %w{production.diaspora.local}
 role :app, %w{production.diaspora.local}
 role :db,  %w{production.diaspora.local}
@@ -14,7 +16,7 @@ ssh_options = {
 }
 
 set :rvm_type, :system
-set :rvm_ruby_version, '2.1.5@diaspora'
+set :rvm_ruby_version, '2.3@diaspora'
 
 set :rails_env, 'production'
 
